@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+<html lang="ko" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="5. 자료 구조" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/tutorial/datastructures.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="이 장에서는 여러분이 이미 배운 것들을 좀 더 자세히 설명하고, 몇 가지 새로운 것들을 덧붙입니다. 리스트 더 보기: The list data type has some more methods. Here are all of the methods of list objects: 리스트 메서드 대부분을 사용하는 예: 아마도 여러분은 insert, remove..." />
+<meta property="og:image:width" content="1146" />
+<meta property="og:image:height" content="600" />
+<meta property="og:image" content="https://docs.python.org/3.13/ko/_images/social_previews/summary_tutorial_datastructures_38592ae2.png" />
+<meta property="og:image:alt" content="이 장에서는 여러분이 이미 배운 것들을 좀 더 자세히 설명하고, 몇 가지 새로운 것들을 덧붙입니다. 리스트 더 보기: The list data type has some more methods. Here are all of the methods of list objects: 리스트 메서드 대부분을 사용하는 예: 아마도 여러분은 insert, remove..." />
+<meta name="description" content="이 장에서는 여러분이 이미 배운 것들을 좀 더 자세히 설명하고, 몇 가지 새로운 것들을 덧붙입니다. 리스트 더 보기: The list data type has some more methods. Here are all of the methods of list objects: 리스트 메서드 대부분을 사용하는 예: 아마도 여러분은 insert, remove..." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#3776ab">
+
+    <title>5. 자료 구조 &#8212; Python 3.13.16 문서</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css?v=234b1a7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pydoctheme.css?v=48df1187" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../_static/pygments_dark.css?v=0fc419ee" />
+    
+    <script src="../_static/documentation_options.js?v=30888685"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=afa94a99"></script>
+    
+    <script src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Python 3.13.16 문서에서 찾기"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="이 문서 정보" href="../about.html" />
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" />
+    <link rel="copyright" title="저작권" href="../copyright.html" />
+    <link rel="next" title="6. 모듈" href="modules.html" />
+    <link rel="prev" title="4. 기타 제어 흐름 도구" href="controlflow.html" />
+    
+      
+      <script defer file-types="bz2,epub,zip" data-domain="docs.python.org" src="https://analytics.python.org/js/script.file-downloads.outbound-links.js"></script>
+      
+      <link rel="canonical" href="https://docs.python.org/3/tutorial/datastructures.html">
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../_static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../_static/py.svg">
+            <script type="text/javascript" src="../_static/copybutton.js"></script>
+            <script type="text/javascript" src="../_static/menu.js"></script>
+            <script type="text/javascript" src="../_static/search-focus.js"></script>
+            <script type="text/javascript" src="../_static/themetoggle.js"></script> 
+            <script type="text/javascript" src="../_static/rtd_switcher.js"></script>
+            <meta name="readthedocs-addons-api-version" content="1">
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="메뉴">
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../_static/py.svg" alt="Python logo">
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="빠른 검색" aria-label="빠른 검색" type="search" name="q">
+                <input type="submit" value="시작">
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    테마
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>자동</option>
+        <option value="light">라이트</option>
+        <option value="dark">다크</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">목차</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">5. 자료 구조</a><ul>
+<li><a class="reference internal" href="#more-on-lists">5.1. 리스트 더 보기</a><ul>
+<li><a class="reference internal" href="#using-lists-as-stacks">5.1.1. 리스트를 스택으로 사용하기</a></li>
+<li><a class="reference internal" href="#using-lists-as-queues">5.1.2. 리스트를 큐로 사용하기</a></li>
+<li><a class="reference internal" href="#list-comprehensions">5.1.3. 리스트 컴프리헨션</a></li>
+<li><a class="reference internal" href="#nested-list-comprehensions">5.1.4. 중첩된 리스트 컴프리헨션</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-del-statement">5.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code> 문</a></li>
+<li><a class="reference internal" href="#tuples-and-sequences">5.3. 튜플과 시퀀스</a></li>
+<li><a class="reference internal" href="#sets">5.4. 집합</a></li>
+<li><a class="reference internal" href="#dictionaries">5.5. 딕셔너리</a></li>
+<li><a class="reference internal" href="#looping-techniques">5.6. 루프 테크닉</a></li>
+<li><a class="reference internal" href="#more-on-conditions">5.7. 조건 더 보기</a></li>
+<li><a class="reference internal" href="#comparing-sequences-and-other-types">5.8. 시퀀스와 다른 형들을 비교하기</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>이전 항목</h4>
+    <p class="topless"><a href="controlflow.html"
+                          title="이전 장"><span class="section-number">4. </span>기타 제어 흐름 도구</a></p>
+  </div>
+  <div>
+    <h4>다음 항목</h4>
+    <p class="topless"><a href="modules.html"
+                          title="다음 장"><span class="section-number">6. </span>모듈</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.13/Doc/tutorial/datastructures.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-ko/blob/3.13/tutorial/datastructures.po?plain=1"
+           rel="nofollow">Show translation source</a>
+      </li>
+      
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>내비게이션</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="전체 색인"
+             accesskey="I">색인</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 모듈 목록"
+             >모듈</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="6. 모듈"
+             accesskey="N">다음</a> |</li>
+        <li class="right" >
+          <a href="controlflow.html" title="4. 기타 제어 흐름 도구"
+             accesskey="P">이전</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.13.16 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">파이썬 자습서</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">5. </span>자료 구조</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="빠른 검색" aria-label="빠른 검색" type="search" name="q" id="search-box">
+          <input type="submit" value="시작">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    테마
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>자동</option>
+        <option value="light">라이트</option>
+        <option value="dark">다크</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="data-structures">
+<span id="tut-structures"></span><h1 class="translated"><span class="section-number">5. </span>자료 구조<a class="headerlink" href="#data-structures" title="Link to this heading">¶</a></h1>
+<p class="translated">이 장에서는 여러분이 이미 배운 것들을 좀 더 자세히 설명하고, 몇 가지 새로운 것들을 덧붙입니다.</p>
+<section id="more-on-lists">
+<span id="tut-morelists"></span><h2 class="translated"><span class="section-number">5.1. </span>리스트 더 보기<a class="headerlink" href="#more-on-lists" title="Link to this heading">¶</a></h2>
+<p class="untranslated">The <a class="reference internal" href="../builtins/stdtypes.html#typesseq-list"><span class="std std-ref">list</span></a> data type has some more methods. Here are all
+of the methods of list objects:</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트의 끝에 항목을 더합니다. <code class="docutils literal notranslate"><span class="pre">a[len(a):]</span> <span class="pre">=</span> <span class="pre">[x]</span></code> 와 비슷합니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트의 끝에 이터러블의 모든 항목을 덧붙여서 확장합니다. <code class="docutils literal notranslate"><span class="pre">a[len(a):]</span> <span class="pre">=</span> <span class="pre">iterable</span></code> 와 비슷합니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">주어진 위치에 항목을 삽입합니다. 첫 번째 인자는 삽입되는 요소가 갖게 될 인덱스입니다. 그래서 <code class="docutils literal notranslate"><span class="pre">a.insert(0,</span> <span class="pre">x)</span></code> 는 리스트의 처음에 삽입하고, <code class="docutils literal notranslate"><span class="pre">a.insert(len(a),</span> <span class="pre">x)</span></code> 는 <code class="docutils literal notranslate"><span class="pre">a.append(x)</span></code> 와 동등합니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="untranslated">Remove the first item from the list whose value is equal to <em>value</em>.  It raises a
+<a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if there is no such item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트에서 주어진 위치에 있는 항목을 삭제하고, 그 항목을 돌려줍니다. 인덱스를 지정하지 않으면, <code class="docutils literal notranslate"><span class="pre">a.pop()</span></code> 은 리스트의 마지막 항목을 삭제하고 돌려줍니다. 리스트가 비어 있거나 인덱스가 리스트 범위를 벗어나면 <a class="reference internal" href="../builtins/exceptions.html#IndexError" title="IndexError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IndexError</span></code></a>를 발생시킵니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트의 모든 항목을 삭제합니다. <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">a[:]</span></code> 와 비슷합니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span></dt>
+<dd><p class="untranslated">Return zero-based index of the first occurrence of <em>value</em> in the list.
+Raises a <a class="reference internal" href="../builtins/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if there is no such item.</p>
+<p class="translated">선택적인 인자 <em>start</em> 와 <em>end</em> 는 슬라이스 표기법처럼 해석되고, 검색을 리스트의 특별한 서브 시퀀스로 제한하는 데 사용됩니다. 돌려주는 인덱스는 <em>start</em> 인자가 아니라 전체 시퀀스의 시작을 기준으로 합니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="untranslated">Return the number of times <em>value</em> appears in the list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트의 항목들을 제자리에서 정렬합니다 (인자들은 정렬 커스터마이제이션에 사용될 수 있습니다. 설명은 <a class="reference internal" href="../builtins/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 를 보세요).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">reverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트의 요소들을 제자리에서 뒤집습니다.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">list.</span></span><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p class="translated">리스트의 얕은 사본을 돌려줍니다. <code class="docutils literal notranslate"><span class="pre">a[:]</span></code> 와 비슷합니다.</p>
+</dd></dl>
+
+<p class="translated">리스트 메서드 대부분을 사용하는 예:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">,</span> <span class="s1">'kiwi'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'apple'</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'tangerine'</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'banana'</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'banana'</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># 위치 4에서부터 다음 banana 를 찾습니다</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span>
+<span class="go">['banana', 'apple', 'kiwi', 'banana', 'pear', 'apple', 'orange']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'grape'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span>
+<span class="go">['banana', 'apple', 'kiwi', 'banana', 'pear', 'apple', 'orange', 'grape']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span>
+<span class="go">['apple', 'apple', 'banana', 'banana', 'grape', 'kiwi', 'orange', 'pear']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">'pear'</span>
+</pre></div>
+</div>
+<p class="translated">아마도 여러분은 <code class="docutils literal notranslate"><span class="pre">insert</span></code>, <code class="docutils literal notranslate"><span class="pre">remove</span></code>, <code class="docutils literal notranslate"><span class="pre">sort</span></code> 같은 메서드들이 리스트를 수정할 뿐 반환 값이 출력되지 않는 것을 알아챘을 것입니다 – 기본 <code class="docutils literal notranslate"><span class="pre">None</span></code> 을 돌려주고 있습니다. <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> 이것은 파이썬에서 모든 가변 자료 구조들에 적용되는 설계 원리입니다.</p>
+<p class="translated">아마도 여러분이 알아챘을 또 다른 사실은 모든 데이터를 정렬하거나 비교할 수는 없다는 것입니다. 예를 들어, 정수를 문자열과 비교할 수 없고 <code class="docutils literal notranslate"><span class="pre">None</span></code>을 다른 형과 비교할 수 없기 때문에 <code class="docutils literal notranslate"><span class="pre">[None,</span> <span class="pre">'hello',</span> <span class="pre">10]</span></code>는 정렬되지 않습니다. 또한 정의된 대소 관계가 없는 형이 있습니다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">3+4j</span> <span class="pre">&lt;</span> <span class="pre">5+7j</span></code>는 올바른 비교가 아닙니다.</p>
+<section id="using-lists-as-stacks">
+<span id="tut-lists-as-stacks"></span><h3 class="translated"><span class="section-number">5.1.1. </span>리스트를 스택으로 사용하기<a class="headerlink" href="#using-lists-as-stacks" title="Link to this heading">¶</a></h3>
+<p class="untranslated">The list methods make it very easy to use a list as a stack, where the last
+element added is the first element retrieved (“last-in, first-out”).  To add an
+item to the top of the stack, use <a class="reference internal" href="../builtins/stdtypes.html#list.append" title="list.append"><code class="xref py py-meth docutils literal notranslate"><span class="pre">append()</span></code></a>.  To retrieve an item from the
+top of the stack, use <a class="reference internal" href="../builtins/stdtypes.html#list.pop" title="list.pop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pop()</span></code></a> without an explicit index.  For example:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span>
+<span class="go">[3, 4, 5, 6, 7]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span>
+<span class="go">[3, 4, 5, 6]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span>
+<span class="go">[3, 4]</span>
+</pre></div>
+</div>
+</section>
+<section id="using-lists-as-queues">
+<span id="tut-lists-as-queues"></span><h3 class="translated"><span class="section-number">5.1.2. </span>리스트를 큐로 사용하기<a class="headerlink" href="#using-lists-as-queues" title="Link to this heading">¶</a></h3>
+<p class="translated">리스트를 큐로 사용하는 것도 가능한데, 처음으로 넣은 요소가 처음으로 꺼내지는 요소입니다 (“first-in, first-out”); 하지만, 리스트는 이 목적에는 효율적이지 않습니다. 리스트의 끝에 덧붙이거나, 끝에서 꺼내는 것은 빠르지만, 리스트의 머리에 덧붙이거나 머리에서 꺼내는 것은 느립니다 (다른 요소들을 모두 한 칸씩 이동시켜야 하기 때문입니다).</p>
+<p class="translated">큐를 구현하려면, 양 끝에서의 덧붙이기와 꺼내기가 모두 빠르도록 설계된 <a class="reference internal" href="../library/collections.html#collections.deque" title="collections.deque"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.deque</span></code></a> 를 사용하세요. 예를 들어:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="s2">"Eric"</span><span class="p">,</span> <span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Michael"</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Terry"</span><span class="p">)</span>           <span class="c1"># Terry 도착</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Graham"</span><span class="p">)</span>          <span class="c1"># Graham 도착</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>                 <span class="c1"># 처음 도착한 사람이 이제 떠납니다</span>
+<span class="go">'Eric'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>                 <span class="c1"># 두번째 도착한 사람이 이제 떠납니다</span>
+<span class="go">'John'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span>                           <span class="c1"># 도착한 순서대로 남아있는 큐</span>
+<span class="go">deque(['Michael', 'Terry', 'Graham'])</span>
+</pre></div>
+</div>
+</section>
+<section id="list-comprehensions">
+<span id="tut-listcomps"></span><h3 class="translated"><span class="section-number">5.1.3. </span>리스트 컴프리헨션<a class="headerlink" href="#list-comprehensions" title="Link to this heading">¶</a></h3>
+<p class="translated">리스트 컴프리헨션은 리스트를 만드는 간결한 방법을 제공합니다. 흔한 용도는, 각 요소가 다른 시퀀스나 이터러블의 멤버들에 어떤 연산을 적용한 결과인 리스트를 만들거나, 어떤 조건을 만족하는 요소들로 구성된 서브 시퀀스를 만드는 것입니다.</p>
+<p class="translated">예를 들어, 제곱수의 리스트를 만들고 싶다고 가정하자, 이런 식입니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span>
+<span class="go">[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span>
+</pre></div>
+</div>
+<p class="translated">이것은 <code class="docutils literal notranslate"><span class="pre">x</span></code> 라는 이름의 변수를 만들고 (또는 덮어쓰고) 루프가 종료된 후에도 남아있게 만든다는 것에 유의하세요. 어떤 부작용도 없이, 제곱수의 리스트를 이런 식으로 계산할 수 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">squares</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p class="translated">또는, 이렇게 할 수도 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p class="translated">이것이 더 간결하고 읽기 쉽습니다.</p>
+<p class="translated">리스트 컴프리헨션은 표현식과 그 뒤를 따르는 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code> 절과 없거나 여러 개의 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code> 나 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code> 절들을 감싸는 대괄호로 구성됩니다. 그 결과는 새 리스트인데, <code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code> 와 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code> 절의 문맥에서 표현식의 값을 구해서 만들어집니다. 예를 들어, 이 리스트 컴프리헨션은 두 리스트의 요소들을 서로 같지 않은 것끼리 결합합니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span><span class="p">]</span>
+<span class="go">[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]</span>
+</pre></div>
+</div>
+<p class="translated">그리고, 이것은 다음과 동등합니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">combs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]:</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]:</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">combs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combs</span>
+<span class="go">[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]</span>
+</pre></div>
+</div>
+<p class="translated">두 코드 조각에서 <a class="reference internal" href="../reference/compound_stmts.html#for"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code></a> 와 <a class="reference internal" href="../reference/compound_stmts.html#if"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">if</span></code></a> 문의 순서가 같음에 유의하세요.</p>
+<p class="translated">표현식이 튜플이면 (즉 앞의 예에서 <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>), 반드시 괄호로 둘러싸야 합니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 값을 두배로 하여 새 리스트를 만듭니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span><span class="p">]</span>
+<span class="go">[-8, -4, 0, 4, 8]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 음수를 제외하도록 리스트를 필터링합니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+<span class="go">[0, 2, 4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 모든 요소에 함수를 적용합니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span><span class="p">]</span>
+<span class="go">[4, 2, 0, 2, 4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 각 요소에 메서드를 호출합니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freshfruit</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'  banana'</span><span class="p">,</span> <span class="s1">'  loganberry '</span><span class="p">,</span> <span class="s1">'passion fruit  '</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">weapon</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">weapon</span> <span class="ow">in</span> <span class="n">freshfruit</span><span class="p">]</span>
+<span class="go">['banana', 'loganberry', 'passion fruit']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># (숫자, 제곱) 과 같은 2-튜플의 리스트를 만듭니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+<span class="go">[(0, 0), (1, 1), (2, 4), (3, 9), (4, 16), (5, 25)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 튜플은 괄호로 묶어야합니다, 그렇지 않으면 에러가 발생합니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+<span class="w">     </span><span class="pm">^^^^^^^</span>
+<span class="gr">SyntaxError</span>: <span class="n">did you forget parentheses around the comprehension target?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 두 개의 'for' 를 갖는 리스트 컴프리헨션으로 리스트를 평평하게 만듭니다</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">num</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">vec</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">]</span>
+<span class="go">[1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+<p class="translated">리스트 컴프리헨션은 복잡한 표현식과 중첩된 함수들을 포함할 수 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="go">['3.1', '3.14', '3.142', '3.1416', '3.14159']</span>
+</pre></div>
+</div>
+</section>
+<section id="nested-list-comprehensions">
+<h3 class="translated"><span class="section-number">5.1.4. </span>중첩된 리스트 컴프리헨션<a class="headerlink" href="#nested-list-comprehensions" title="Link to this heading">¶</a></h3>
+<p class="translated">리스트 컴프리헨션의 첫 표현식으로 임의의 표현식이 올 수 있는데, 다른 리스트 컴프리헨션도 가능합니다.</p>
+<p class="translated">다음과 같은 길이가 4인 리스트 3개의 리스트로 구현된 3x4 행렬의 예를 봅시다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="translated">다음 리스트 컴프리헨션은 행과 열을 전치 시킵니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[[</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="go">[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]</span>
+</pre></div>
+</div>
+<p class="translated">앞절에서 보았듯이, 내부 리스트 컴프리헨션은 뒤따르는 <a class="reference internal" href="../reference/compound_stmts.html#for"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">for</span></code></a> 의 문맥에서 값이 구해집니다. 그래서 이 예는 다음과 동등합니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transposed</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">transposed</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transposed</span>
+<span class="go">[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]</span>
+</pre></div>
+</div>
+<p class="translated">이것은 다시 다음과 같습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transposed</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># 다음 3줄은 중첩된 리스트 컴프리헨션을 구현합니다</span>
+<span class="gp">... </span>    <span class="n">transposed_row</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">transposed_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="n">transposed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transposed_row</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transposed</span>
+<span class="go">[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]</span>
+</pre></div>
+</div>
+<p class="translated">실제 세상에서는, 복잡한 흐름문보다 내장 함수들을 선호해야 합니다. 이 경우에는 <a class="reference internal" href="../builtins/functions.html#zip" title="zip"><code class="xref py py-func docutils literal notranslate"><span class="pre">zip()</span></code></a> 함수가 제 역할을 할 수 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">matrix</span><span class="p">))</span>
+<span class="go">[(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]</span>
+</pre></div>
+</div>
+<p class="translated">이 줄에 나오는 애스터리스크에 대한 자세한 내용은 <a class="reference internal" href="controlflow.html#tut-unpacking-arguments"><span class="std std-ref">인자 목록 언 패킹</span></a> 을 보세요.</p>
+</section>
+</section>
+<section id="the-del-statement">
+<span id="tut-del"></span><h2 class="translated"><span class="section-number">5.2. </span><code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code> 문<a class="headerlink" href="#the-del-statement" title="Link to this heading">¶</a></h2>
+<p class="untranslated">There is a way to remove an item from a list given its index instead of its
+value: the <a class="reference internal" href="../reference/simple_stmts.html#del"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code></a> statement.  This differs from the <a class="reference internal" href="../builtins/stdtypes.html#list.pop" title="list.pop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pop()</span></code></a> method
+which returns a value.  The <code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code> statement can also be used to remove
+slices from a list or clear the entire list (which we did earlier by assignment
+of an empty list to the slice).  For example:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">66.25</span><span class="p">,</span> <span class="mi">333</span><span class="p">,</span> <span class="mi">333</span><span class="p">,</span> <span class="mf">1234.5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[1, 66.25, 333, 333, 1234.5]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[1, 66.25, 1234.5]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">a</span><span class="p">[:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="../reference/simple_stmts.html#del"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code></a> 는 변 자체를 삭제하는데에도 사용될 수 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p class="translated">이후에 이름 <code class="docutils literal notranslate"><span class="pre">a</span></code> 를 참조하는 것은 에러입니다 (적어도 다른 값이 새로 대입되기 전까지). 뒤에서 <a class="reference internal" href="../reference/simple_stmts.html#del"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code></a> 의 다른 용도를 보게 됩니다.</p>
+</section>
+<section id="tuples-and-sequences">
+<span id="tut-tuples"></span><h2 class="translated"><span class="section-number">5.3. </span>튜플과 시퀀스<a class="headerlink" href="#tuples-and-sequences" title="Link to this heading">¶</a></h2>
+<p class="translated">리스트와 문자열이 인덱싱과 슬라이싱 연산과 같은 많은 성질을 공유함을 보았습니다. 이것들은 <em>시퀀스</em> 자료 형의 두 가지 예입니다 (<a class="reference internal" href="../builtins/stdtypes.html#typesseq"><span class="std std-ref">Sequence Types — list, tuple, range</span></a> 를 보세요). 파이썬은 진화하는 언어이기 때문에, 다른 시퀀스 자료형이 추가될 수도 있습니다. 다른 표준 시퀀스 자료 형이 있습니다: <em>튜플</em> 입니다.</p>
+<p class="translated">튜플은 쉼표로 구분되는 여러 값으로 구성됩니다. 예를 들어:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="mi">12345</span><span class="p">,</span> <span class="mi">54321</span><span class="p">,</span> <span class="s1">'hello!'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">12345</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span>
+<span class="go">(12345, 54321, 'hello!')</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 튜플은 중첩될 수 있습니다:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span>
+<span class="go">((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 튜플은 불변입니다:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">88888</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">'tuple' object does not support item assignment</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 하지만 가변 객체를 포함할 수 있습니다:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span>
+<span class="go">([1, 2, 3], [3, 2, 1])</span>
+</pre></div>
+</div>
+<p class="translated">여러분이 보듯이, 출력되는 튜플은 항상 괄호로 둘러싸입니다, 그래서 중첩된 튜플이 올바르게 해석됩니다; 종종 괄호가 필요하기는 하지만 (튜플이 더 큰 표현식의 일부일 때), 둘러싼 괄호와 함께 또는 없이 입력될 수 있습니다. 튜플의 개별 항목에 대입하는 것은 가능하지 않지만, 리스트 같은 가변 객체를 포함하는 튜플을 만들 수는 있습니다.</p>
+<p class="translated">튜플이 리스트처럼 보인다 하더라도, 이것들은 다른 상황에서 다른 목적으로 사용됩니다. 튜플은 <a class="reference internal" href="../glossary.html#term-immutable"><span class="xref std std-term">불변</span></a> 이고, 보통 이질적인 요소들의 시퀀스를 포함합니다. 요소들은 언 패킹 (이 섹션의 뒤에 나온다) 이나 인덱싱 (또는 <a class="reference internal" href="../library/collections.html#collections.namedtuple" title="collections.namedtuple"><code class="xref py py-func docutils literal notranslate"><span class="pre">네임드</span> <span class="pre">튜플</span></code></a> 의 경우는 어트리뷰트로도) 으로 액세스합니다. 리스트는 <a class="reference internal" href="../glossary.html#term-mutable"><span class="xref std std-term">가변</span></a> 이고, 요소들은 보통 등질 적이고 리스트에 대한 이터레이션으로 액세스 됩니다.</p>
+<p class="translated">특별한 문제는 비었거나 하나의 항목을 갖는 튜플을 만드는 것입니다: 이 경우를 수용하기 위해 문법은 추가적인 예외 사항을 갖고 있습니다. 빈 튜플은 빈 괄호 쌍으로 만들어집니다; 하나의 항목으로 구성된 튜플은 값 뒤에 쉼표를 붙여서 만듭니다 (값 하나를 괄호로 둘러싸기만 하는 것으로는 충분하지 않습니다). 추합니다, 하지만 효과적입니다. 예를 들어:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">empty</span> <span class="o">=</span> <span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">singleton</span> <span class="o">=</span> <span class="s1">'hello'</span><span class="p">,</span>    <span class="c1"># &lt;-- 마지막 쉼표에 주의하세요</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">empty</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">singleton</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">singleton</span>
+<span class="go">('hello',)</span>
+</pre></div>
+</div>
+<p class="translated">문장 <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">12345,</span> <span class="pre">54321,</span> <span class="pre">'hello!'</span></code> 는 <em>튜플 패킹</em> 의 예입니다: 값 <code class="docutils literal notranslate"><span class="pre">12345</span></code>, <code class="docutils literal notranslate"><span class="pre">54321</span></code>, <code class="docutils literal notranslate"><span class="pre">'hello!'</span></code> 는 함께 튜플로 패킹 됩니다. 반대 연산 또한 가능합니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">t</span>
+</pre></div>
+</div>
+<p class="translated">이것은, 충분히 적절하게도, <em>시퀀스 언 패킹</em> 이라고 불리고 오른쪽에 어떤 시퀀스가 와도 됩니다. 시퀀스 언 패킹은 등호의 좌변에 시퀀스에 있는 요소들과 같은 개수의 변수들이 올 것을 요구합니다. 다중 대입은 사실 튜플 패킹과 시퀀스 언 패킹의 조합일뿐이라는 것에 유의하세요.</p>
+</section>
+<section id="sets">
+<span id="tut-sets"></span><h2 class="translated"><span class="section-number">5.4. </span>집합<a class="headerlink" href="#sets" title="Link to this heading">¶</a></h2>
+<p class="untranslated">Python also includes a data type for <a class="reference internal" href="../builtins/stdtypes.html#types-set"><span class="std std-ref">sets</span></a>.  A set is
+an unordered collection with no duplicate elements.  Basic uses include
+membership testing and eliminating duplicate entries.  Set objects also
+support mathematical operations like union, intersection, difference, and
+symmetric difference.</p>
+<p class="translated">집합을 만들 때는 중괄호나 <a class="reference internal" href="../builtins/stdtypes.html#set" title="set"><code class="xref py py-func docutils literal notranslate"><span class="pre">set()</span></code></a> 함수를 사용할 수 있습니다. 주의사항: 빈 집합을 만들려면 <code class="docutils literal notranslate"><span class="pre">set()</span></code> 을 사용해야 합니다. <code class="docutils literal notranslate"><span class="pre">{}</span></code> 가 아닙니다; 후자는 빈 딕셔너리를 만드는데, 다음 섹션에서 다룹니다.</p>
+<p class="untranslated">Because sets are unordered, iterating over them or printing them can
+produce the elements in a different order than you expect.</p>
+<p class="translated">여기 간략한 실연이 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">basket</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">basket</span><span class="p">)</span>                      <span class="c1"># 중복이 제거되었음을 보여줍니다</span>
+<span class="go">{'orange', 'banana', 'pear', 'apple'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'orange'</span> <span class="ow">in</span> <span class="n">basket</span>                 <span class="c1"># 빠른 멤버십 검사</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'crabgrass'</span> <span class="ow">in</span> <span class="n">basket</span>
+<span class="go">False</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 두 단어의 고유한 글자들로 집합 연산 시연</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">'abracadabra'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">'alacazam'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>                                  <span class="c1"># a 의 고유한 글자들</span>
+<span class="go">{'a', 'r', 'b', 'c', 'd'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span>                              <span class="c1"># a 에 있으나 b 에 없는 글자들</span>
+<span class="go">{'r', 'd', 'b'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">|</span> <span class="n">b</span>                              <span class="c1"># a 나 b, 혹은 양쪽 모두에 있는 글자들</span>
+<span class="go">{'a', 'c', 'r', 'd', 'b', 'm', 'z', 'l'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span>                              <span class="c1"># a 와 b 모두에 있는 글자들</span>
+<span class="go">{'a', 'c'}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">^</span> <span class="n">b</span>                              <span class="c1"># a 나 b 에 있지만 양쪽 모두에 있지는 않은 글자들</span>
+<span class="go">{'r', 'd', 'b', 'm', 'z', 'l'}</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="#tut-listcomps"><span class="std std-ref">리스트 컴프리헨션</span></a> 과 유사하게, 집합 컴프리헨션도 지원됩니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s1">'abracadabra'</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s1">'abc'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">{'r', 'd'}</span>
+</pre></div>
+</div>
+</section>
+<section id="dictionaries">
+<span id="tut-dictionaries"></span><h2 class="translated"><span class="section-number">5.5. </span>딕셔너리<a class="headerlink" href="#dictionaries" title="Link to this heading">¶</a></h2>
+<p class="untranslated">Another useful data type built into Python is the <em>dictionary</em> (see
+<a class="reference internal" href="../builtins/stdtypes.html#typesmapping"><span class="std std-ref">Mapping Types — dict</span></a>). Dictionaries are sometimes found in other languages as
+“associative memories” or “associative arrays”.  Unlike sequences, which are
+indexed by a range of numbers, dictionaries are indexed by <em>keys</em>, which can be
+any immutable type; strings and numbers can always be keys.  Tuples can be used
+as keys if they contain only strings, numbers, or tuples; if a tuple contains
+any mutable object either directly or indirectly, it cannot be used as a key.
+You can’t use lists as keys, since lists can be modified in place using index
+assignments, slice assignments, or methods like <a class="reference internal" href="../builtins/stdtypes.html#list.append" title="list.append"><code class="xref py py-meth docutils literal notranslate"><span class="pre">append()</span></code></a> and
+<a class="reference internal" href="../builtins/stdtypes.html#list.extend" title="list.extend"><code class="xref py py-meth docutils literal notranslate"><span class="pre">extend()</span></code></a>.</p>
+<p class="translated">딕셔너리를 (한 딕셔너리 안에서) 키가 중복되지 않는다는 제약 조건을 가진 <em>키: 값</em> 쌍의 집합으로 생각하는 것이 최선입니다. 중괄호 쌍은 빈 딕셔너리를 만듭니다: <code class="docutils literal notranslate"><span class="pre">{}</span></code>. 중괄호 안에 쉼표로 분리된 키:값 쌍들의 목록을 넣으면, 딕셔너리에 초기 키:값 쌍들을 제공합니다; 이것이 딕셔너리가 출력되는 방식이기도 합니다.</p>
+<p class="untranslated">The main operations on a dictionary are storing a value with some key and
+extracting the value given the key.  It is also possible to delete a key:value
+pair with <code class="docutils literal notranslate"><span class="pre">del</span></code>. If you store using a key that is already in use, the old
+value associated with that key is forgotten.</p>
+<p class="untranslated">Extracting a value for a non-existent key by subscripting (<code class="docutils literal notranslate"><span class="pre">d[key]</span></code>) raises a
+<a class="reference internal" href="../builtins/exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>. To avoid getting this error when trying to access a possibly
+non-existent key, use the <a class="reference internal" href="../builtins/stdtypes.html#dict.get" title="dict.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> method instead, which returns
+<code class="docutils literal notranslate"><span class="pre">None</span></code> (or a specified default value) if the key is not in the dictionary.</p>
+<p class="translated">딕셔러리에 <code class="docutils literal notranslate"><span class="pre">list(d)</span></code> 를 수행하면 딕셔너리에서 사용되고 있는 모든 키의 리스트를 삽입 순서대로 돌려줍니다 (정렬을 원하면 대신 <code class="docutils literal notranslate"><span class="pre">sorted(d)</span></code> 를 사용하면 됩니다). 하나의 키가 딕셔너리에 있는지 검사하려면, <a class="reference internal" href="../reference/expressions.html#in"><code class="xref std std-keyword docutils literal notranslate"><span class="pre">in</span></code></a> 키워드들 사용하세요.</p>
+<p class="translated">여기에 딕셔너리를 사용하는 조그마한 예가 있습니다:</p>
+<div class="untranslated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'jack'</span><span class="p">:</span> <span class="mi">4098</span><span class="p">,</span> <span class="s1">'sape'</span><span class="p">:</span> <span class="mi">4139</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span><span class="p">[</span><span class="s1">'guido'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4127</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span>
+<span class="go">{'jack': 4098, 'sape': 4139, 'guido': 4127}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span><span class="p">[</span><span class="s1">'jack'</span><span class="p">]</span>
+<span class="go">4098</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span><span class="p">[</span><span class="s1">'irv'</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">"&lt;stdin&gt;"</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">KeyError</span>: <span class="n">'irv'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tel</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'irv'</span><span class="p">))</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">tel</span><span class="p">[</span><span class="s1">'sape'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span><span class="p">[</span><span class="s1">'irv'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4127</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tel</span>
+<span class="go">{'jack': 4098, 'guido': 4127, 'irv': 4127}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">tel</span><span class="p">)</span>
+<span class="go">['jack', 'guido', 'irv']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">tel</span><span class="p">)</span>
+<span class="go">['guido', 'irv', 'jack']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'guido'</span> <span class="ow">in</span> <span class="n">tel</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'jack'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tel</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p class="translated"><a class="reference internal" href="../builtins/stdtypes.html#dict" title="dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">dict()</span></code></a> 생성자는 키-값 쌍들의 시퀀스로 부터 직접 딕셔너리를 구성합니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span><span class="p">([(</span><span class="s1">'sape'</span><span class="p">,</span> <span class="mi">4139</span><span class="p">),</span> <span class="p">(</span><span class="s1">'guido'</span><span class="p">,</span> <span class="mi">4127</span><span class="p">),</span> <span class="p">(</span><span class="s1">'jack'</span><span class="p">,</span> <span class="mi">4098</span><span class="p">)])</span>
+<span class="go">{'sape': 4139, 'guido': 4127, 'jack': 4098}</span>
+</pre></div>
+</div>
+<p class="translated">이에 더해, 딕셔너리 컴프리헨션은 임의의 키와 값 표현식들로 부터 딕셔너리를 만드는데 사용될 수 있습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)}</span>
+<span class="go">{2: 4, 4: 16, 6: 36}</span>
+</pre></div>
+</div>
+<p class="translated">키가 간단한 문자열일 때, 때로 키워드 인자들을 사용해서 쌍을 지정하기가 쉽습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span><span class="p">(</span><span class="n">sape</span><span class="o">=</span><span class="mi">4139</span><span class="p">,</span> <span class="n">guido</span><span class="o">=</span><span class="mi">4127</span><span class="p">,</span> <span class="n">jack</span><span class="o">=</span><span class="mi">4098</span><span class="p">)</span>
+<span class="go">{'sape': 4139, 'guido': 4127, 'jack': 4098}</span>
+</pre></div>
+</div>
+</section>
+<section id="looping-techniques">
+<span id="tut-loopidioms"></span><h2 class="translated"><span class="section-number">5.6. </span>루프 테크닉<a class="headerlink" href="#looping-techniques" title="Link to this heading">¶</a></h2>
+<p class="translated">딕셔너리로 루핑할 때, <a class="reference internal" href="../builtins/stdtypes.html#dict.items" title="dict.items"><code class="xref py py-meth docutils literal notranslate"><span class="pre">items()</span></code></a> 메서드를 사용하면 키와 거기에 대응하는 값을 동시에 얻을 수 있습니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">knights</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'gallahad'</span><span class="p">:</span> <span class="s1">'the pure'</span><span class="p">,</span> <span class="s1">'robin'</span><span class="p">:</span> <span class="s1">'the brave'</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">knights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">gallahad the pure</span>
+<span class="go">robin the brave</span>
+</pre></div>
+</div>
+<p class="translated">시퀀스를 루핑할 때, <a class="reference internal" href="../builtins/functions.html#enumerate" title="enumerate"><code class="xref py py-func docutils literal notranslate"><span class="pre">enumerate()</span></code></a> 함수를 사용하면 위치 인덱스와 대응하는 값을 동시에 얻을 수 있습니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">'tic'</span><span class="p">,</span> <span class="s1">'tac'</span><span class="p">,</span> <span class="s1">'toe'</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">0 tic</span>
+<span class="go">1 tac</span>
+<span class="go">2 toe</span>
+</pre></div>
+</div>
+<p class="translated">둘이나 그 이상의 시퀀스를 동시에 루핑하려면, <a class="reference internal" href="../builtins/functions.html#zip" title="zip"><code class="xref py py-func docutils literal notranslate"><span class="pre">zip()</span></code></a> 함수로 엔트리들의 쌍을 만들 수 있습니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'quest'</span><span class="p">,</span> <span class="s1">'favorite color'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">answers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'lancelot'</span><span class="p">,</span> <span class="s1">'the holy grail'</span><span class="p">,</span> <span class="s1">'blue'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">questions</span><span class="p">,</span> <span class="n">answers</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">'What is your </span><span class="si">{0}</span><span class="s1">?  It is </span><span class="si">{1}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">What is your name?  It is lancelot.</span>
+<span class="go">What is your quest?  It is the holy grail.</span>
+<span class="go">What is your favorite color?  It is blue.</span>
+</pre></div>
+</div>
+<p class="translated">시퀀스를 거꾸로 루핑하려면, 먼저 정방향으로 시퀀스를 지정한 다음에 <a class="reference internal" href="../builtins/functions.html#reversed" title="reversed"><code class="xref py py-func docutils literal notranslate"><span class="pre">reversed()</span></code></a> 함수를 호출하세요.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">9</span>
+<span class="go">7</span>
+<span class="go">5</span>
+<span class="go">3</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p class="translated">정렬된 순서로 시퀀스를 루핑하려면, <a class="reference internal" href="../builtins/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a> 함수를 사용해서 소스를 변경하지 않고도 정렬된 새 리스트를 받을 수 있습니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">basket</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">basket</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">apple</span>
+<span class="go">apple</span>
+<span class="go">banana</span>
+<span class="go">orange</span>
+<span class="go">orange</span>
+<span class="go">pear</span>
+</pre></div>
+</div>
+<p class="translated">시퀀스에 대해 <a class="reference internal" href="../builtins/stdtypes.html#set" title="set"><code class="xref py py-func docutils literal notranslate"><span class="pre">set()</span></code></a>을 사용하면 중복 요소를 제거합니다. 시퀀스에 대해 <code class="xref py py-func docutils literal notranslate"><span class="pre">set()</span></code>과 <a class="reference internal" href="../builtins/functions.html#sorted" title="sorted"><code class="xref py py-func docutils literal notranslate"><span class="pre">sorted()</span></code></a>를 함께 사용하는 것은 시퀀스의 고유 한 요소를 정렬된 순서로 루핑하는 관용적 방법입니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">basket</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">basket</span><span class="p">)):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">apple</span>
+<span class="go">banana</span>
+<span class="go">orange</span>
+<span class="go">pear</span>
+</pre></div>
+</div>
+<p class="translated">때로 루프를 돌고 있는 리스트를 변경하고픈 유혹을 느낍니다; 하지만, 종종, 대신 새 리스트를 만드는 것이 더 간단하고 더 안전합니다.</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">raw_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">56.2</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'NaN'</span><span class="p">),</span> <span class="mf">51.7</span><span class="p">,</span> <span class="mf">55.3</span><span class="p">,</span> <span class="mf">52.5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'NaN'</span><span class="p">),</span> <span class="mf">47.8</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">raw_data</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">filtered_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_data</span>
+<span class="go">[56.2, 51.7, 55.3, 52.5, 47.8]</span>
+</pre></div>
+</div>
+</section>
+<section id="more-on-conditions">
+<span id="tut-conditions"></span><h2 class="translated"><span class="section-number">5.7. </span>조건 더 보기<a class="headerlink" href="#more-on-conditions" title="Link to this heading">¶</a></h2>
+<p class="translated"><code class="docutils literal notranslate"><span class="pre">while</span></code> 과 <code class="docutils literal notranslate"><span class="pre">if</span></code> 문에서 사용되는 조건에는 비교뿐만 아니라 모든 연산자를 사용할 수 있습니다.</p>
+<p class="translated">비교 연산자 <code class="docutils literal notranslate"><span class="pre">in</span></code> 과 <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code> 은 값이 컨테이너에 있는지 (없는지) 확인하는 멤버십 검사입니다. 연산자 <code class="docutils literal notranslate"><span class="pre">is</span></code> 와 <code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">not</span></code> 은 두 객체가 진짜로 같은 객체인지 비교합니다. 모든 비교 연산자들은 같은 우선순위를 갖는데, 모든 산술 연산자들보다 낮습니다.</p>
+<p class="translated">비교는 연쇄할 수 있습니다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">b</span> <span class="pre">==</span> <span class="pre">c</span></code> 는, <code class="docutils literal notranslate"><span class="pre">a</span></code> 가 <code class="docutils literal notranslate"><span class="pre">b</span></code> 보다 작고, 동시에 <code class="docutils literal notranslate"><span class="pre">b</span></code> 가 <code class="docutils literal notranslate"><span class="pre">c</span></code> 와 같은지 검사합니다.</p>
+<p class="translated">비교는 논리 연산자 <code class="docutils literal notranslate"><span class="pre">and</span></code> 와 <code class="docutils literal notranslate"><span class="pre">or</span></code> 를 사용해서 결합할 수 있고, 비교의 결과는 (또는 그 밖의 모든 논리 표현식은) <code class="docutils literal notranslate"><span class="pre">not</span></code> 으로 부정될 수 있습니다. 이것들은 비교 연산자보다 낮은 우선순위를 갖습니다. 이것 간에는 <code class="docutils literal notranslate"><span class="pre">not</span></code> 이 가장 높은 우선순위를 갖고, <code class="docutils literal notranslate"><span class="pre">or</span></code> 가 가장 낮습니다. 그래서 <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">and</span> <span class="pre">not</span> <span class="pre">B</span> <span class="pre">or</span> <span class="pre">C</span></code> 는 <code class="docutils literal notranslate"><span class="pre">(A</span> <span class="pre">and</span> <span class="pre">(not</span> <span class="pre">B))</span> <span class="pre">or</span> <span class="pre">C</span></code> 와 동등합니다. 여느 때처럼, 원하는 조합을 표현하기 위해 괄호를 사용할 수 있습니다.</p>
+<p class="translated">논리 연산자 <code class="docutils literal notranslate"><span class="pre">and</span></code> 와 <code class="docutils literal notranslate"><span class="pre">or</span></code> 는 소위 <em>단락-회로(short-circuit)</em> 연산자입니다: 인자들은 왼쪽에서 오른쪽으로 값이 구해지고, 결과가 결정되자마자 값 구하기는 중단됩니다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">A</span></code> 와 <code class="docutils literal notranslate"><span class="pre">C</span></code> 가 참이고 <code class="docutils literal notranslate"><span class="pre">B</span></code> 가 거짓이면, <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">and</span> <span class="pre">B</span> <span class="pre">and</span> <span class="pre">C</span></code> 는 표현식 <code class="docutils literal notranslate"><span class="pre">C</span></code> 의 값을 구하지 않습니다. 논리값이 아닌 일반 값으로 사용될 때, 단락-회로 연산자의 반환 값은 마지막으로 값이 구해진 인자입니다.</p>
+<p class="translated">비교의 결과나 다른 논리 표현식의 결과를 변수에 대입할 수 있습니다. 예를 들어,</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">,</span> <span class="n">string3</span> <span class="o">=</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">'Trondheim'</span><span class="p">,</span> <span class="s1">'Hammer Dance'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">non_null</span> <span class="o">=</span> <span class="n">string1</span> <span class="ow">or</span> <span class="n">string2</span> <span class="ow">or</span> <span class="n">string3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">non_null</span>
+<span class="go">'Trondheim'</span>
+</pre></div>
+</div>
+<p class="translated">파이썬에서, C와는 달리, 표현식 안에서의 대입은 <a class="reference internal" href="../faq/design.html#why-can-t-i-use-an-assignment-in-an-expression"><span class="std std-ref">바다코끼리 연산자</span></a> <code class="docutils literal notranslate"><span class="pre">:=</span></code>를 사용하여 명시적으로 수행해야 합니다. C 프로그램에서 흔히 마주치는 부류의 문제들을 회피하도록 합니다: <code class="docutils literal notranslate"><span class="pre">==</span></code> 를 사용할 표현식에 <code class="docutils literal notranslate"><span class="pre">=</span></code> 를 입력하는 실수.</p>
+</section>
+<section id="comparing-sequences-and-other-types">
+<span id="tut-comparing"></span><h2 class="translated"><span class="section-number">5.8. </span>시퀀스와 다른 형들을 비교하기<a class="headerlink" href="#comparing-sequences-and-other-types" title="Link to this heading">¶</a></h2>
+<p class="translated">시퀀스 객체들은 보통 같은 시퀀스 형의 다른 객체들과 비교될 수 있습니다. 비교는 <em>사전식</em> 순서를 사용합니다: 먼저 첫 두 항목을 비교해서 다르면 이것이 비교의 결과를 결정합니다; 같으면, 다음 두 항목을 비교하고, 이런 식으로 어느 한 시퀀스가 소진될 때까지 계속합니다. 만약 비교되는 두 항목 자체가 같은 형의 시퀀스면, 사전식 비교가 재귀적으로 수행됩니다. 두 시퀀스의 모든 항목이 같다고 비교되면, 시퀀스들은 같은 것으로 취급됩니다. 한 시퀀스가 다른 하나의 머리 부분 서브 시퀀스면, 짧은 시퀀스가 작은 것입니다. 문자열의 사전식 배열은 개별 문자들의 순서를 정하는데 유니코드 코드 포인트 숫자를 사용합니다. 같은 형의 시퀀스들 간의 비교의 몇 가지 예는 이렇습니다:</p>
+<div class="translated highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>              <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>              <span class="o">&lt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="s1">'ABC'</span> <span class="o">&lt;</span> <span class="s1">'C'</span> <span class="o">&lt;</span> <span class="s1">'Pascal'</span> <span class="o">&lt;</span> <span class="s1">'Python'</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>           <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                 <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>             <span class="o">==</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">'aa'</span><span class="p">,</span> <span class="s1">'ab'</span><span class="p">))</span>   <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">'abc'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="translated">서로 다른 형의 객체들을 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 나 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 로 비교하는 것은, 그 객체들이 적절한 비교 메서드들을 갖고 있을 때만 허락된다는 것에 유의하세요. 예를 들어, 서로 다른 숫자 형들은 그들의 숫자 값에 따라 비교됩니다. 그래서 0은 0.0과 같고, 등등. 그렇지 않으면, 임의의 순서를 제공하는 대신, 인터프리터는 <a class="reference internal" href="../builtins/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> 를 일으킵니다.</p>
+<p class="translated rubric">각주</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p class="translated">다른 언어들에서는 가변 객체를 돌려주기도 하는데, <code class="docutils literal notranslate"><span class="pre">d-&gt;insert(&quot;a&quot;)-&gt;remove(&quot;b&quot;)-&gt;sort();</span></code> 와 같은 메서드 연쇄를 허락합니다.</p>
+</aside>
+</aside>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">목차</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">5. 자료 구조</a><ul>
+<li><a class="reference internal" href="#more-on-lists">5.1. 리스트 더 보기</a><ul>
+<li><a class="reference internal" href="#using-lists-as-stacks">5.1.1. 리스트를 스택으로 사용하기</a></li>
+<li><a class="reference internal" href="#using-lists-as-queues">5.1.2. 리스트를 큐로 사용하기</a></li>
+<li><a class="reference internal" href="#list-comprehensions">5.1.3. 리스트 컴프리헨션</a></li>
+<li><a class="reference internal" href="#nested-list-comprehensions">5.1.4. 중첩된 리스트 컴프리헨션</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-del-statement">5.2. <code class="xref std std-keyword docutils literal notranslate"><span class="pre">del</span></code> 문</a></li>
+<li><a class="reference internal" href="#tuples-and-sequences">5.3. 튜플과 시퀀스</a></li>
+<li><a class="reference internal" href="#sets">5.4. 집합</a></li>
+<li><a class="reference internal" href="#dictionaries">5.5. 딕셔너리</a></li>
+<li><a class="reference internal" href="#looping-techniques">5.6. 루프 테크닉</a></li>
+<li><a class="reference internal" href="#more-on-conditions">5.7. 조건 더 보기</a></li>
+<li><a class="reference internal" href="#comparing-sequences-and-other-types">5.8. 시퀀스와 다른 형들을 비교하기</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>이전 항목</h4>
+    <p class="topless"><a href="controlflow.html"
+                          title="이전 장"><span class="section-number">4. </span>기타 제어 흐름 도구</a></p>
+  </div>
+  <div>
+    <h4>다음 항목</h4>
+    <p class="topless"><a href="modules.html"
+                          title="다음 장"><span class="section-number">6. </span>모듈</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">Report a bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.13/Doc/tutorial/datastructures.rst?plain=1"
+            rel="nofollow">Show source
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://github.com/python/python-docs-ko/blob/3.13/tutorial/datastructures.po?plain=1"
+           rel="nofollow">Show translation source</a>
+      </li>
+      
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="사이드바 닫기">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>내비게이션</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="전체 색인"
+             >색인</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 모듈 목록"
+             >모듈</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="6. 모듈"
+             >다음</a> |</li>
+        <li class="right" >
+          <a href="controlflow.html" title="4. 기타 제어 흐름 도구"
+             >이전</a> |</li>
+
+          <li class="root-icon"><img src="../_static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"></li>
+          <li><a href="https://www.python.org/">Python</a> &#187;</li>
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.13.16 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >파이썬 자습서</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><span class="section-number">5. </span>자료 구조</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="빠른 검색" aria-label="빠른 검색" type="search" name="q" id="search-box">
+          <input type="submit" value="시작">
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    테마
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>자동</option>
+        <option value="light">라이트</option>
+        <option value="dark">다크</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">저작권</a> 2001-2026, Python Software Foundation.
+    <br>
+    해당하는 페이지의 저작권은 파이썬 소프트웨어 재단 저작권 라이센스 버전 2를 통해 보호받음을 고지 드립니다.
+    <br>
+    해당하는 문서 내의 예제, 사용법, 그리고 다른 코드들은 또한 Zero Clause BSD 라이센스를 통해 보호받음을 고지 드립니다.
+    <br>
+    
+      보다 다양한 정보를 위해서는 <a href="/license.html">라이센스와 기록물</a> 을 참고 부탁드립니다.<br>
+    
+    
+    <br>
+
+    파이썬 소프트웨어 재단은 비영리 재단입니다.
+<a href="https://www.python.org/psf/donations/">기부를 부탁드립니다.</a>
+<br>
+    <br>
+      마지막 업데이트: 10월 01, 2026 (14:04 UTC).
+    
+      <a href="/bugs.html">문제가 생기셨나요</a>?
+    
+    <br>
+
+    해당하는 문서는 <a href="https://www.sphinx-doc.org/">스핑크스</a> 8.2.3를 통해 만들어졌습니다.
+    </div>
+
+    <script type="text/javascript" src="../_static/switchers.js"></script>
+  </body>
+</html>

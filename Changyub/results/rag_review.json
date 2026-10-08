@@ -1,0 +1,92 @@
+[
+  {
+    "id": "Q1",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "b4c6993f473baaacd25b09b330635d9d4a0ba6661a7d7ad7a3ebaddcdbe0c367",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "range(5) 출력 0~4와 끝값 제외 설명이 인용한 청크에 있음."
+  },
+  {
+    "id": "Q2",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "b17bc2aa336a5be8496d5b499f4b82c026bf123e6a7060ac80c07776d920bf9d",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "list.sort 수정·None은 [1], sorted 새 리스트·원본 유지 설명은 [3]에 있으며 각각 인용함."
+  },
+  {
+    "id": "Q3",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "7e7e66732fb401b31c02f651afcadad05fc3b795de29c39e27a866d0f5dc7f81",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "하나짜리 튜플의 끝 쉼표와 singleton 예제가 인용한 청크에 있음."
+  },
+  {
+    "id": "Q4",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "9f8d3797e2419a19eba5a0a7e13128c967ee93f278b4edbde11e6b17701915f9",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "기본값의 1회 평가와 None 대안 코드가 인용한 청크에 있음."
+  },
+  {
+    "id": "Q5",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "012efd4e415b968f6f13424e3ba891cdc686a07f476a1d0cc3c1c2c9bebd9623",
+    "expected_facts_met": true,
+    "citation_support": "partial",
+    "note": "직접 실행 __main__은 [1], 모듈 이름 __name__은 검색된 [2]에 있음. 응답은 [1]만 인용하므로 일부 출처 인용이 빠짐."
+  },
+  {
+    "id": "Q6",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "e817b712a66fe078be1f9c8103c9147bc032c634b981758eea8d7856e9a0e3de",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "예외·return 직전 finally 실행과 반환값 덮어쓰기 설명이 검색된 절에 있음."
+  },
+  {
+    "id": "Q7",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "104871bf92809b2a56acabf367fc7bff6ee1b0210a23a65e0ee1b5b5a279f0a9",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "17 // 3 → 5, 17 % 3 → 2의 예제가 인용한 청크에 있음."
+  },
+  {
+    "id": "Q8",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "8057352fd61a3b101ae7ecaff17c00613d3ab49cb86becb209a4a20c200f9816",
+    "expected_facts_met": true,
+    "citation_support": "supported",
+    "note": "상위 절 [2]의 함수 시그니처와 위치·키워드 구분 도식이 답변을 뒷받침함."
+  },
+  {
+    "id": "Q9",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "0aa4751257aa590094df3d070808f42f3cb9dc853a20685d6d0eedeaefc4bb93",
+    "expected_facts_met": true,
+    "citation_support": "not_applicable",
+    "note": "Django ORM 설명은 코퍼스에 없고 답변을 유보함. 외부 사실 정확도는 이 평가에서 판정하지 않음."
+  },
+  {
+    "id": "Q10",
+    "mode": "rag",
+    "reviewer": "Codex",
+    "answer_sha256": "0aa4751257aa590094df3d070808f42f3cb9dc853a20685d6d0eedeaefc4bb93",
+    "expected_facts_met": true,
+    "citation_support": "not_applicable",
+    "note": "담당 강사 정보는 코퍼스에 없고 답변을 유보함."
+  }
+]

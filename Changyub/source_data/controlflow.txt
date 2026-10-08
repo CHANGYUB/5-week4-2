@@ -1,0 +1,802 @@
+4. 기타 제어 흐름 도구
+방금 소개한 while 문 외에도, 파이썬은 이 장에서 만나게 될 몇 가지 추가적인 문법들을 시용합니다.
+
+4.1. if 문
+아마도 가장 잘 알려진 문장 형은 if 문일 것입니다. 예를 들어:
+
+>>> x = int(input("Please enter an integer: "))
+Please enter an integer: 42
+>>> if x < 0:
+...     x = 0
+...     print('Negative changed to zero')
+... elif x == 0:
+...     print('Zero')
+... elif x == 1:
+...     print('Single')
+... else:
+...     print('More')
+...
+More
+
+없거나 여러 개의 elif 부가 있을 수 있고, else 부는 선택적입니다. 키워드 ‘ elif ’ 는 ‘else if’ 의 줄임 표현인데, 과도한 들여쓰기를 피하는 데 유용합니다. if … elif … elif … 시퀀스는 다른 언어들에서 발견되는 switch 나 case 문을 대신합니다.
+
+If you’re comparing the same value to several constants, or checking for specific types or
+attributes, you may also find the match statement useful. For more
+details see match 문 .
+
+4.2. for 문
+파이썬에서 for 문은 C 나 파스칼에서 사용하던 것과 약간 다릅니다. (파스칼처럼) 항상 숫자의 산술적인 진행을 통해 이터레이션 하거나, (C처럼) 사용자가 이터레이션 단계와 중지 조건을 정의할 수 있도록 하는 대신, 파이썬의 for 문은 임의의 시퀀스 (리스트나 문자열)의 항목들을 그 시퀀스에 들어있는 순서대로 이터레이션 합니다. 예를 들어 (말장난이 아니라):
+
+>>> # 몇 개의 문자열을 측정합니다:
+>>> words = ['cat', 'window', 'defenestrate']
+>>> for w in words:
+...     print(w, len(w))
+...
+cat 3
+window 6
+defenestrate 12
+
+컬렉션을 이터레이트 하는 동안 같은 컬렉션을 수정하는 코드는 올바르게 동작하도록 만들기 힘듭니다. 대신, 보통 컬렉션의 복사본으로 루프를 만들거나 새 컬렉션을 만드는 것이 더 간단합니다:
+
+# 샘플 컬렉션을 만듭니다
+users = {'Hans': 'active', 'Éléonore': 'inactive', '홍길동': 'active'}
+
+# 전략:  사본을 이터레이트
+for user, status in users.copy().items():
+    if status == 'inactive':
+        del users[user]
+
+# 전략:  새 컬렉션 만들기
+active_users = {}
+for user, status in users.items():
+    if status == 'active':
+        active_users[user] = status
+
+4.3. range() 함수
+숫자들의 시퀀스로 이터레이트할 필요가 있으면, 내장 함수 range() 가 편리합니다. 수열을 만듭니다:
+
+>>> for i in range(5):
+...     print(i)
+...
+0
+1
+2
+3
+4
+
+끝값은 만들어지는 수열에 포함되지 않습니다; range(10) 은 10개의 값을 만드는데, 길이 10인 시퀀스의 항목들을 가리키는 올바른 인덱스들입니다. 범위가 다른 숫자로 시작하거나, 다른 증가분을 (음수조차 가능합니다; 때로 이것을 ‘스텝(step)’이라고 부릅니다) 지정하는 것도 가능합니다:
+
+>>> list(range(5, 10))
+[5, 6, 7, 8, 9]
+
+>>> list(range(0, 10, 3))
+[0, 3, 6, 9]
+
+>>> list(range(-10, -100, -30))
+[-10, -40, -70]
+
+시퀀스의 인덱스들로 이터레이트 하려면, 다음처럼 range() 와 len() 을 결합할 수 있습니다:
+
+>>> a = ['Mary', 'had', 'a', 'little', 'lamb']
+>>> for i in range(len(a)):
+...     print(i, a[i])
+...
+0 Mary
+1 had
+2 a
+3 little
+4 lamb
+
+하지만, 그럴 때 대부분은, enumerate() 함수를 쓰는 것이 편리합니다, 루프 테크닉 를 보세요.
+
+범위를 그냥 인쇄하면 이상한 일이 일어납니다:
+
+>>> range(10)
+range(0, 10)
+
+많은 경우에 range() 가 돌려준 객체는 리스트인 것처럼 동작하지만, 사실 리스트가 아닙니다. 이터레이트할 때 원하는 시퀀스 항목들을 순서대로 돌려주는 객체이지만, 실제로 리스트를 만들지 않아서 공간을 절약합니다.
+
+이런 객체를 이터러블 이라고 부릅니다. 공급이 소진될 때까지 일련의 항목들을 얻을 수 있는 무엇인가를 기대하는 함수와 구조물들의 타깃으로 적합합니다. 우리는 for 문이 그런 구조물임을 보았습니다. 이터러블을 취하는 함수의 예는 sum() 입니다:
+
+>>> sum(range(4))  # 0 + 1 + 2 + 3
+6
+
+Later we will see more functions that return iterables and take iterables as
+arguments.  In chapter 자료 구조 , we will discuss list() in more
+detail.
+
+4.4. break 와 continue 문
+break 문은 가장 가까이서 둘러싸는 for 나 while 루프로부터 빠져나가게 만듭니다.
+
+>>> for n in range(2, 10):
+...     for x in range(2, n):
+...         if n % x == 0:
+...             print(f"{n} equals {x} * {n//x}")
+...             break
+...
+4 equals 2 * 2
+6 equals 2 * 3
+8 equals 2 * 4
+9 equals 3 * 3
+
+continue 문은 루프의 다음 이터레이션에서 계속하도록 만듭니다:
+
+>>> for num in range(2, 10):
+...     if num % 2 == 0:
+...         print(f"Found an even number {num}")
+...         continue
+...     print(f"Found an odd number {num}")
+...
+Found an even number 2
+Found an odd number 3
+Found an even number 4
+Found an odd number 5
+Found an even number 6
+Found an odd number 7
+Found an even number 8
+Found an odd number 9
+
+4.5. 루프의 else 절
+In a for or while loop the break statement
+may be paired with an else clause.  If the loop finishes without
+executing the break , the else clause executes.
+
+In a for loop, the else clause is executed
+after the loop finishes its final iteration, that is, if no break occurred.
+
+In a while loop, it’s executed after the loop’s condition becomes false.
+
+In either kind of loop, the else clause is not executed if the
+loop was terminated by a break .  Of course, other ways of ending the
+loop early, such as a return or a raised exception, will also skip
+execution of the else clause.
+
+This is exemplified in the following for loop,
+which searches for prime numbers:
+
+>>> for n in range(2, 10):
+...     for x in range(2, n):
+...         if n % x == 0:
+...             print(n, 'equals', x, '*', n//x)
+...             break
+...     else:
+...         # 루프에서 인수를 발견하지 못하고 떨어집니다
+...         print(n, 'is a prime number')
+...
+2 is a prime number
+3 is a prime number
+4 equals 2 * 2
+5 is a prime number
+6 equals 2 * 3
+7 is a prime number
+8 equals 2 * 4
+9 equals 3 * 3
+
+(이것은 올바른 코드입니다. 자세히 들여다보면: else 절은 if 문이 아니라 for 루프에 속합니다.)
+
+One way to think of the else clause is to imagine it paired with the if inside the loop.  As the loop executes, it will run a sequence like
+if/if/if/else. The if is inside the loop, encountered a number of times. If
+the condition is ever true, a break will happen. If the condition is never
+true, the else clause outside the loop will execute.
+
+루프와 함께 사용될 때, else 절은 if 문보다는 try 문의 else 절과 비슷한 면이 많습니다: try 문의 else 절은 예외가 발생하지 않을 때 실행되고, 루프의 else 절은 break 가 발생하지 않을 때 실행됩니다. try 문과 예외에 관한 자세한 내용은 예외 처리하기 를 보세요.
+
+4.6. pass 문
+pass 문은 아무것도 하지 않습니다. 문법적으로 문장이 필요하지만, 프로그램이 특별히 할 일이 없을 때 사용할 수 있습니다. 예를 들어:
+
+>>> while True:
+...     pass  # 키보드 인터럽트(Ctrl+C)를 기다립니다
+...
+
+최소한의 클래스를 만들 때 흔히 사용됩니다:
+
+>>> class MyEmptyClass:
+...     pass
+...
+
+pass 가 사용될 수 있는 다른 장소는 새 코드를 작업할 때 함수나 조건부 바디의 자리를 채우는 것인데, 여러분이 더 추상적인 수준에서 생각할 수 있게 합니다. pass 는 조용히 무시됩니다:
+
+>>> def initlog(*args):
+...     pass   # 구현을 잊지마세요!
+...
+
+For this last case, many people use the ellipsis literal ... instead of pass . This use has no special meaning to Python, and is not part of
+the language definition (you could use any constant expression here), but ... is used conventionally as a placeholder body as well.
+See The Ellipsis Object .
+
+4.7. match 문
+A match statement takes an expression and compares its value to successive
+patterns given as one or more case blocks.  This is superficially
+similar to a switch statement in C, Java or JavaScript (and many
+other languages), but it’s more similar to pattern matching in
+languages like Rust or Haskell. Only the first pattern that matches
+gets executed and it can also extract components (sequence elements
+or object attributes) from the value into variables.
+
+The simplest form compares a subject value against one or more literals:
+
+def http_error(status):
+    match status:
+        case 400:
+            return "Bad request"
+        case 404:
+            return "Not found"
+        case 418:
+            return "I'm a teapot"
+        case _:
+            return "Something's wrong with the internet"
+
+Note the last block: the “variable name” _ acts as a wildcard and
+never fails to match. If no case matches, none of the branches is executed.
+
+You can combine several literals in a single pattern using | (“or”):
+
+case 401 | 403 | 404:
+    return "Not allowed"
+
+Patterns can look like unpacking assignments, and can be used to bind
+variables:
+
+# point 는 (x, y) 튜플입니다
+match point:
+    case (0, 0):
+        print("Origin")
+    case (0, y):
+        print(f"Y={y}")
+    case (x, 0):
+        print(f"X={x}")
+    case (x, y):
+        print(f"X={x}, Y={y}")
+    case _:
+        raise ValueError("Not a point")
+
+Study that one carefully!  The first pattern has two literals, and can
+be thought of as an extension of the literal pattern shown above.  But
+the next two patterns combine a literal and a variable, and the
+variable binds a value from the subject ( point ).  The fourth
+pattern captures two values, which makes it conceptually similar to
+the unpacking assignment (x, y) = point .
+
+If you are using classes to structure your data
+you can use the class name followed by an argument list resembling a
+constructor, but with the ability to capture attributes into variables:
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+def where_is(point):
+    match point:
+        case Point(x=0, y=0):
+            print("Origin")
+        case Point(x=0, y=y):
+            print(f"Y={y}")
+        case Point(x=x, y=0):
+            print(f"X={x}")
+        case Point():
+            print("Somewhere else")
+        case _:
+            print("Not a point")
+
+You can use positional parameters with some builtin classes that provide an
+ordering for their attributes (e.g. dataclasses). You can also define a specific
+position for attributes in patterns by setting the __match_args__ special
+attribute in your classes. If it’s set to (“x”, “y”), the following patterns are all
+equivalent (and all bind the y attribute to the var variable):
+
+Point(1, var)
+Point(1, y=var)
+Point(x=1, y=var)
+Point(y=var, x=1)
+
+A recommended way to read patterns is to look at them as an extended form of what you
+would put on the left of an assignment, to understand which variables would be set to
+what.
+Only the standalone names (like var above) are assigned to by a match statement.
+Dotted names (like foo.bar ), attribute names (the x= and y= above) or class names
+(recognized by the “(…)” next to them like Point above) are never assigned to.
+
+Patterns can be arbitrarily nested.  For example, if we have a short
+list of Points, with __match_args__ added, we could match it like this:
+
+class Point:
+    __match_args__ = ('x', 'y')
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+match points:
+    case []:
+        print("No points")
+    case [Point(0, 0)]:
+        print("The origin")
+    case [Point(x, y)]:
+        print(f"Single point {x}, {y}")
+    case [Point(0, y1), Point(0, y2)]:
+        print(f"Two on the Y axis at {y1}, {y2}")
+    case _:
+        print("Something else")
+
+We can add an if clause to a pattern, known as a “guard”.  If the
+guard is false, match goes on to try the next case block.  Note
+that value capture happens before the guard is evaluated:
+
+match point:
+    case Point(x, y) if x == y:
+        print(f"Y=X at {x}")
+    case Point(x, y):
+        print(f"Not on the diagonal")
+
+Several other key features of this statement:
+
+Like unpacking assignments, tuple and list patterns have exactly the
+same meaning and actually match arbitrary sequences.  An important
+exception is that they don’t match iterators or strings.
+
+Sequence patterns support extended unpacking: [x, y, *rest] and (x, y, *rest) work similar to unpacking assignments.  The
+name after * may also be _ , so (x, y, *_) matches a sequence
+of at least two items without binding the remaining items.
+
+Mapping patterns: {"bandwidth": b, "latency": l} captures the "bandwidth" and "latency" values from a dictionary.  Unlike sequence
+patterns, extra keys are ignored.  An unpacking like **rest is also
+supported.  (But **_ would be redundant, so it is not allowed.)
+
+Subpatterns may be captured using the as keyword: case ( Point ( x1 , y1 ), Point ( x2 , y2 ) as p2 ): ... will capture the second element of the input as p2 (as long as the input is
+a sequence of two points)
+
+Most literals are compared by equality, however the singletons True , False and None are compared by identity.
+
+Patterns may use named constants.  These must be dotted names
+to prevent them from being interpreted as capture variables: from enum import Enum class Color ( Enum ): RED = 'red' GREEN = 'green' BLUE = 'blue' color = Color ( input ( "Enter your choice of 'red', 'blue' or 'green': " )) match color : case Color . RED : print ( "I see red!" ) case Color . GREEN : print ( "Grass is green" ) case Color . BLUE : print ( "I'm feeling the blues :(" )
+
+For a more detailed explanation and additional examples, you can look into PEP 636 which is written in a tutorial format.
+
+4.8. 함수 정의하기
+피보나치 수열을 임의의 한도까지 출력하는 함수를 만들 수 있습니다:
+
+>>> def fib(n):    # n 보다 작은 피보나치 수열을 씁니다
+...     """n 보다 작은 피보나치 수열을 인쇄합니다."""
+...     a, b = 0, 1
+...     while a < n:
+...         print(a, end=' ')
+...         a, b = b, a+b
+...     print()
+...
+>>> # 이제 방금 정의한 함수를 호출합니다:
+>>> fib(2000)
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
+
+키워드 def 는 함수 정의 를 시작합니다. 함수 이름과 괄호로 싸인 형식 매개변수들의 목록이 뒤따릅니다. 함수의 바디를 형성하는 문장들이 다음 줄에서 시작되고, 반드시 들여쓰기 되어야 합니다.
+
+함수 바디의 첫 번째 문장은 선택적으로 문자열 리터럴이 될 수 있습니다; 이 문자열 리터럴은 함수의 도큐멘테이션 문자열, 즉 독스트링 (docstring) 입니다. (독스트링에 대한 자세한 내용은 도큐멘테이션 문자열 에 나옵니다.) 독스트링을 사용해서 온라인이나 인쇄된 설명서를 자동 생성하거나, 사용자들이 대화형으로 코드를 열람할 수 있도록 하는 도구들이 있습니다; 여러분이 작성하는 코드에 독스트링을 첨부하는 것은 좋은 관습입니다, 그러니 버릇을 들이는 것이 좋습니다.
+
+함수의 실행 은 함수의 지역 변수들을 위한 새 심볼 테이블을 만듭니다. 좀 더 구체적으로, 함수에서의 모든 변수 대입들은 값을 지역 심볼 테이블에 저장합니다; 반면에 변수 참조는 먼저 지역 심볼 테이블을 본 다음, 전역 심볼 테이블을 본 후, 마지막으로 내장 이름들의 테이블을 살핍니다. 그래서, 참조될 수는 있다 하더라도, 전역 변수들과 둘러싸는 함수의 변수들은 함수 내에서 직접 값이 대입될 수 없습니다 (전역 변수를 global 문으로 명시하거나 둘러싸는 함수의 변수를 nonlocal 문으로 명시하지 않는 이상).
+
+함수 호출로 전달되는 실제 매개변수들 (인자들)은 호출될 때 호출되는 함수의 지역 심볼 테이블에 만들어집니다; 그래서 인자들은 값에 의한 호출(call by value) 로 전달됩니다 ( 값 은 항상 객체의 값이 아니라 객체 참조 입니다). [ 1 ] 함수가 다른 함수를 호출할 때, 또는 자신을 재귀적으로 호출할 때, 그 호출을 위한 새 지역 심볼 테이블이 만들어집니다.
+
+함수 정의는 함수 이름을 현재 심볼 테이블의 함수 객체와 연결합니다. 인터프리터는 해당 이름이 가리키는 객체를 사용자 정의 함수로 인식합니다. 다른 이름은 같은 함수 객체를 가리킬 수 있으며 함수에 액세스하는 데 사용될 수도 있습니다:
+
+>>> fib
+<function fib at 10042ed0>
+>>> f = fib
+>>> f(100)
+0 1 1 2 3 5 8 13 21 34 55 89
+
+다른 언어들을 사용했다면, fib 가 값을 돌려주지 않기 때문에 함수가 아니라 프로시저라고 생각할 수 있습니다. 사실, return 문이 없는 함수도 값을 돌려줍니다, 비록 따분한 값이기는 하지만. 이 값은 None 이라고 불립니다 (내장 이름입니다). None 이 출력할 유일한 값이라면, 인터프리터는 보통 None 값 출력을 억제합니다. 꼭 보길 원한다면 print() 를 사용할 수 있습니다:
+
+>>> fib(0)
+>>> print(fib(0))
+None
+
+인쇄하는 대신, 피보나치 수열의 숫자들 리스트를 돌려주는 함수를 작성하는 것도 간단합니다:
+
+>>> def fib2(n):  # n 보다 작은 피보나치 수열을 돌려줍니다
+...     """n 보다 작은 피보나치 수열을 담은 리스트를 돌려줍니다."""
+...     result = []
+...     a, b = 0, 1
+...     while a < n:
+...         result.append(a)    # 아래를 보세요
+...         a, b = b, a+b
+...     return result
+...
+>>> f100 = fib2(100)    # 호출합니다
+>>> f100                # 결과를 씁니다
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+
+여느 때처럼, 이 예는 몇 가지 새 파이썬 기능을 보여줍니다:
+
+return 문은 함수로부터 값을 갖고 복귀하게 만듭니다. 표현식 인자 없는 return 은 None 을 돌려줍니다. 함수의 끝으로 떨어지면 역시 None 을 돌려줍니다.
+
+The statement result.append(a) calls a method of the list object result .  A method is a function that ‘belongs’ to an object and is named obj.methodname , where obj is some object (this may be an expression),
+and methodname is the name of a method that is defined by the object’s type.
+Different types define different methods.  Methods of different types may have
+the same name without causing ambiguity.  (It is possible to define your own
+object types and methods, using classes , see 클래스 )
+The method append() shown in the example is defined for list objects; it
+adds a new element at the end of the list.  In this example it is equivalent to result = result + [a] , but more efficient.
+
+4.9. 함수 정의 더 보기
+정해지지 않은 개수의 인자들로 함수를 정의하는 것도 가능합니다. 세 가지 형식이 있는데, 조합할 수 있습니다.
+
+4.9.1. 기본 인자 값
+가장 쓸모 있는 형식은 하나나 그 이상 인자들의 기본값을 지정하는 것입니다. 정의된 것보다 더 적은 개수의 인자들로 호출될 수 있는 함수를 만듭니다. 예를 들어:
+
+def ask_ok(prompt, retries=4, reminder='Please try again!'):
+    while True:
+        reply = input(prompt)
+        if reply in {'y', 'ye', 'yes'}:
+            return True
+        if reply in {'n', 'no', 'nop', 'nope'}:
+            return False
+        retries = retries - 1
+        if retries < 0:
+            raise ValueError('invalid user response')
+        print(reminder)
+
+이 함수는 여러 가지 방법으로 호출될 수 있습니다:
+
+오직 꼭 필요한 인자만 전달해서: ask_ok('정말 끝내길 원하세요?')
+
+선택적 인자 하나를 제공해서: ask_ok('파일을 덮어써도 좋습니까?', 2)
+
+또는 모든 인자를 제공해서: ask_ok('파일을 덮어써도 좋습니까?', 2, '자, 예나 아니요로만 답하세요!')
+
+이 예는 in 키워드도 소개하고 있습니다. 시퀀스가 어떤 값을 가졌는지 아닌지를 검사합니다.
+
+기본값은 함수 정의 시점에 정의되고 있는 스코프에서 구해집니다, 그래서
+
+i = 5
+
+def f(arg=i):
+    print(arg)
+
+i = 6
+f()
+
+는 5 를 인쇄합니다.
+
+중요한 주의사항: 기본값은 오직 한 번만 값이 구해집니다. 이것은 기본값이 리스트나 딕셔너리나 대부분 클래스의 인스턴스와 같은 가변 객체일 때 차이를 만듭니다. 예를 들어, 다음 함수는 계속되는 호출로 전달된 인자들을 누적합니다:
+
+def f(a, L=[]):
+    L.append(a)
+    return L
+
+print(f(1))
+print(f(2))
+print(f(3))
+
+다음과 같은 것을 인쇄합니다
+
+[1]
+[1, 2]
+[1, 2, 3]
+
+연속된 호출 간에 기본값이 공유되지 않기를 원한다면, 대신 함수를 이런 식으로 쓸 수 있습니다:
+
+def f(a, L=None):
+    if L is None:
+        L = []
+    L.append(a)
+    return L
+
+4.9.2. 키워드 인자
+함수는 kwarg=value 형식의 키워드 인자 를 사용해서 호출될 수 있습니다. 예를 들어, 다음 함수는:
+
+def parrot(voltage, state='a stiff', action='voom', type='Norwegian Blue'):
+    print("-- This parrot wouldn't", action, end=' ')
+    print("if you put", voltage, "volts through it.")
+    print("-- Lovely plumage, the", type)
+    print("-- It's", state, "!")
+
+하나의 필수 인자( voltage )와 세 개의 선택적 인자 ( state , action , type ) 를 받아들입니다. 이 함수는 다음과 같은 방법 중 아무것으로나 호출될 수 있습니다.
+
+parrot(1000)                                          # 1개의 위치 인자
+parrot(voltage=1000)                                  # 1개의 키워드 인자
+parrot(voltage=1000000, action='VOOOOOM')             # 2개의 키워드 인자
+parrot(action='VOOOOOM', voltage=1000000)             # 2개의 키워드 인자
+parrot('a million', 'bereft of life', 'jump')         # 3개의 위치 인자
+parrot('a thousand', state='pushing up the daisies')  # 1개의 위치, 1개의 키워드
+
+하지만 다음과 같은 호출들은 모두 올바르지 않습니다:
+
+parrot()                     # 필수 인자 누락
+parrot(voltage=5.0, 'dead')  # 키워드 인자 뒤에 키워드가 아닌 인자가 옴
+parrot(110, voltage=220)     # 같은 인자가 중복됨
+parrot(actor='John Cleese')  # 알려지지 않은 키워드 인자
+
+함수 호출에서, 키워드 인자는 위치 인자 뒤에 나와야 합니다. 전달된 모든 키워드 인자는 함수가 받아들이는 인자 중 하나와 맞아야 하며 (예를 들어, actor 는 parrot 함수의 올바른 인자가 아니다), 그 순서는 중요하지 않습니다. 이것들에는 필수 인자들도 포함됩니다 (예를 들어, parrot(voltage=1000) 도 올바릅니다). 어떤 인자도 두 개 이상의 값을 받을 수 없습니다. 여기, 이 제약 때문에 실패하는 예가 있습니다:
+
+>>> def function(a):
+...     pass
+...
+>>> function(0, a=0)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: function() got multiple values for argument 'a'
+
+**name 형식의 마지막 형식 매개변수가 존재하면, 형식 매개변수들에 대응하지 않는 모든 키워드 인자들을 담은 딕셔너리 ( Mapping Types — dict 를 보세요) 를 받습니다. 이것은 *name (다음 서브섹션에서 설명합니다) 형식의 형식 매개변수와 조합될 수 있는데, 형식 매개변수 목록 밖의 위치 인자들을 담은 튜플 을 받습니다. ( *name 은 **name 앞에 나와야 합니다.) 예를 들어, 이런 함수를 정의하면:
+
+def cheeseshop(kind, *arguments, **keywords):
+    print("-- Do you have any", kind, "?")
+    print("-- I'm sorry, we're all out of", kind)
+    for arg in arguments:
+        print(arg)
+    print("-" * 40)
+    for kw in keywords:
+        print(kw, ":", keywords[kw])
+
+이런 식으로 호출될 수 있습니다:
+
+cheeseshop("Limburger", "It's very runny, sir.",
+           "It's really very, VERY runny, sir.",
+           shopkeeper="Michael Palin",
+           client="John Cleese",
+           sketch="Cheese Shop Sketch")
+
+그리고 당연히 이렇게 인쇄합니다:
+
+-- Do you have any Limburger ?
+-- I'm sorry, we're all out of Limburger
+It's very runny, sir.
+It's really very, VERY runny, sir.
+----------------------------------------
+shopkeeper : Michael Palin
+client : John Cleese
+sketch : Cheese Shop Sketch
+
+인쇄되는 키워드 인자들의 순서 함수 호출로 전달된 순서와 일치함이 보장됨에 주목하세요.
+
+4.9.3. 특수 매개 변수
+기본적으로, 인자는 위치나 명시적인 키워드로 파이썬 함수에 전달될 수 있습니다. 가독성과 성능을 위해, 개발자가 항목이 위치, 위치나 키워드 또는 키워드로 전달되는지를 판단할 때 함수 정의만을 보면 되도록, 인자가 전달될 방법을 제한하면 좋습니다.
+
+함수 정의는 다음과 같습니다:
+
+def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+      -----------    ----------     ----------
+        |             |                  |
+        |        위치-키워드                  |
+        |                                - 카워드 전용
+         -- 위치 전용
+
+여기서 / 와 * 는 선택적입니다. 사용하면, 이 기호는 인자가 함수에 전달되는 방식에 따른 매개 변수의 종류를 나타냅니다: 위치 전용, 위치-키워드 및 키워드 전용. 키워드 매개 변수는 명명된(named) 매개 변수라고도 합니다.
+
+4.9.3.1. 위치-키워드(Positional-or-Keyword) 인자
+함수 정의에 / 와 * 가 없으면, 인자를 위치나 키워드로 함수에 전달할 수 있습니다.
+
+4.9.3.2. 위치 전용 매개 변수
+좀 더 자세하게 살펴보면, 특정 매개 변수를 위치 전용 으로 표시할 수 있습니다. 위치 전용 이면, 매개 변수의 순서가 중요하며, 키워드로 매개 변수를 전달할 수 없습니다. 위치 전용 매개 변수는 / (슬래시) 앞에 놓입니다. / 는 위치 전용 매개 변수를 나머지 매개 변수들로부터 논리적으로 분리하는 데 사용됩니다. 함수 정의에 / 가 없으면, 위치 전용 매개 변수는 없습니다.
+
+/ 다음의 매개 변수는 위치-키워드 나 키워드 전용 일 수 있습니다.
+
+4.9.3.3. 키워드 전용 인자
+매개 변수를 키워드 인자로 전달해야 함을 나타내도록, 매개 변수를 키워드 전용 으로 표시하려면, 첫 번째 키워드 전용 매개 변수 바로 전에 인자 목록에 * 를 넣으십시오.
+
+4.9.3.4. 함수 예제
+/ 와 * 마커에 주의를 기울이는 다음 예제 함수 정의를 고려하십시오:
+
+>>> def standard_arg(arg):
+...     print(arg)
+...
+>>> def pos_only_arg(arg, /):
+...     print(arg)
+...
+>>> def kwd_only_arg(*, arg):
+...     print(arg)
+...
+>>> def combined_example(pos_only, /, standard, *, kwd_only):
+...     print(pos_only, standard, kwd_only)
+
+첫 번째 함수 정의 standard_arg 는 가장 익숙한 형식으로, 호출 규칙에 아무런 제한을 두지 않으며 인자는 위치나 키워드로 전달될 수 있습니다:
+
+>>> standard_arg(2)
+2
+
+>>> standard_arg(arg=2)
+2
+
+두 번째 함수 pos_only_arg 는 함수 정의에 / 가 있으므로 위치 매개 변수만 사용하도록 제한됩니다:
+
+>>> pos_only_arg(1)
+1
+
+>>> pos_only_arg(arg=1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: pos_only_arg() got some positional-only arguments passed as keyword arguments: 'arg'
+
+세 번째 함수 kwd_only_arg 는 함수 정의에서 * 로 표시된 키워드 인자만 허용합니다:
+
+>>> kwd_only_arg(3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: kwd_only_arg() takes 0 positional arguments but 1 was given
+
+>>> kwd_only_arg(arg=3)
+3
+
+마지막은 같은 함수 정의에서 세 가지 호출 규칙을 모두 사용합니다:
+
+>>> combined_example(1, 2, 3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: combined_example() takes 2 positional arguments but 3 were given
+
+>>> combined_example(1, 2, kwd_only=3)
+1 2 3
+
+>>> combined_example(1, standard=2, kwd_only=3)
+1 2 3
+
+>>> combined_example(pos_only=1, standard=2, kwd_only=3)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: combined_example() got some positional-only arguments passed as keyword arguments: 'pos_only'
+
+마지막으로, 위치 인자 name 과 name 을 키로 가지는 **kwds 사이에 잠재적인 충돌이 있는 이 함수 정의를 고려하십시오:
+
+def foo(name, **kwds):
+    return 'name' in kwds
+
+'name' 키워드는 항상 첫 번째 매개 변수에 결합하므로 True 를 반환할 수 있는 호출은 불가능합니다. 예를 들면:
+
+>>> foo(1, **{'name': 2})
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: foo() got multiple values for argument 'name'
+>>>
+
+그러나 / (위치 전용 인자)를 사용하면, name 을 위치 인자로, 동시에 'name' 을 키워드 인자의 키로 사용할 수 있으므로 가능합니다:
+
+>>> def foo(name, /, **kwds):
+...     return 'name' in kwds
+...
+>>> foo(1, **{'name': 2})
+True
+
+즉, 위치 전용 매개 변수의 이름을 **kwds 에서 모호함 없이 사용할 수 있습니다.
+
+4.9.3.5. 복습
+사용 사례가 함수 정의에서 어떤 매개 변수를 사용할지 결정합니다:
+
+def f(pos1, pos2, /, pos_or_kwd, *, kwd1, kwd2):
+
+지침으로서:
+
+매개 변수의 이름을 사용자가 사용할 수 없도록 하려면 위치 전용을 사용하십시오. 매개 변수 이름이 실제 의미가 없을 때, 함수가 호출될 때 인자의 순서를 강제하려고 할 때, 또는 일부 위치 매개 변수와 임의의 키워드를 받아들이고 싶을 때 유용합니다.
+
+이름이 의미가 있고 함수 정의가 이름을 명시적으로 지정함으로써 더 이해하기 쉬워지거나, 사용자가 전달되는 인자의 위치에 의존하지 못하도록 하려면 키워드 전용을 사용하십시오.
+
+API의 경우, 향후 매개 변수의 이름이 수정될 때 비호환 API 변경이 발생하는 것을 방지하려면 위치 전용을 사용하십시오.
+
+4.9.4. 임의의 인자 목록
+마지막으로, 가장 덜 사용되는 옵션은 함수가 임의의 개수 인자로 호출될 수 있도록 지정하는 것입니다. 이 인자들은 튜플로 묶입니다 ( 튜플과 시퀀스 을 보세요). 가변 길이 인자 앞에, 없거나 여러 개의 일반 인자들이 올 수 있습니다.
+
+def write_multiple_items(file, separator, *args):
+    file.write(separator.join(args))
+
+보통, 이 가변 길이 인자들은 형식 매개변수 목록의 마지막에 옵니다, 함수로 전달된 남은 입력 인자들 전부를 그러모으기 때문입니다. *args 매개변수 뒤에 등장하는 형식 매개변수들은 모두 ‘키워드-전용’ 인자들인데, 위치 인자 대신 키워드 인자로만 사용될 수 있다는 뜻입니다.
+
+>>> def concat(*args, sep="/"):
+...     return sep.join(args)
+...
+>>> concat("earth", "mars", "venus")
+'earth/mars/venus'
+>>> concat("earth", "mars", "venus", sep=".")
+'earth.mars.venus'
+
+4.9.5. 인자 목록 언 패킹
+인자들이 이미 리스트나 튜플에 있지만, 분리된 위치 인자들을 요구하는 함수 호출을 위해 언 패킹 해야 하는 경우 반대 상황이 벌어집니다. 예를 들어, 내장 range() 함수는 별도의 start 와 stop 인자를 기대합니다. 그것들이 따로 있지 않으면, 리스트와 튜플로부터 인자를 언 패킹하기 위해 * -연산자를 사용해서 함수를 호출하면 됩니다:
+
+>>> list(range(3, 6))            # 별도의 인자를 사용하는 일반 호출
+[3, 4, 5]
+>>> args = [3, 6]
+>>> list(range(*args))            # 리스트에서 언패킹된 인자로 호출
+[3, 4, 5]
+
+같은 방식으로 딕셔너리도 ** -연산자를 써서 키워드 인자를 전달할 수 있습니다:
+
+>>> def parrot(voltage, state='a stiff', action='voom'):
+...     print("-- This parrot wouldn't", action, end=' ')
+...     print("if you put", voltage, "volts through it.", end=' ')
+...     print("E's", state, "!")
+...
+>>> d = {"voltage": "four million", "state": "bleedin' demised", "action": "VOOM"}
+>>> parrot(**d)
+-- This parrot wouldn't VOOM if you put four million volts through it. E's bleedin' demised !
+
+4.9.6. 람다 표현식
+lambda 키워드들 사용해서 작고 이름 없는 함수를 만들 수 있습니다. 이 함수는 두 인자의 합을 돌려줍니다: lambda a, b: a+b . 함수 객체가 있어야 하는 곳이면 어디나 람다 함수가 사용될 수 있습니다. 문법적으로는 하나의 표현식으로 제한됩니다. 의미적으로는, 일반적인 함수 정의의 편의 문법일 뿐입니다. 중첩된 함수 정의처럼, 람다 함수는 둘러싸는 스코프에 있는 변수들을 참조할 수 있습니다:
+
+>>> def make_incrementor(n):
+...     return lambda x: x + n
+...
+>>> f = make_incrementor(42)
+>>> f(0)
+42
+>>> f(1)
+43
+
+The above example uses a lambda expression to return a function.  Another use
+is to pass a small function as an argument.  For instance, list.sort() takes a sorting key function key which can be a lambda function:
+
+>>> pairs = [(1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')]
+>>> pairs.sort(key=lambda pair: pair[1])
+>>> pairs
+[(4, 'four'), (1, 'one'), (3, 'three'), (2, 'two')]
+
+4.9.7. 도큐멘테이션 문자열
+여기에 도큐멘테이션 문자열의 내용과 포매팅에 관한 몇 가지 관례가 있습니다.
+
+첫 줄은 항상 객체의 목적을 짧고, 간결하게 요약해야 합니다. 간결함을 위해, 객체의 이름이나 형을 명시적으로 언급하지 않아야 하는데, 이것들은 다른 방법으로 제공되기 때문입니다 (이름이 함수의 작업을 설명하는 동사라면 예외입니다). 이 줄은 대문자로 시작하고 마침표로 끝나야 합니다.
+
+도큐멘테이션 문자열에 여러 줄이 있다면, 두 번째 줄은 비어있어서, 시각적으로 요약과 나머지 설명을 분리해야 합니다. 뒤따르는 줄들은 하나나 그 이상의 문단으로, 객체의 호출 규약, 부작용 등을 설명해야 합니다.
+
+The Python parser strips indentation from multi-line string literals when they
+serve as module, class, or function docstrings.
+
+여기 여러 줄 독스트링의 예가 있습니다:
+
+>>> def my_function():
+...     """Do nothing, but document it.
+...
+...     No, really, it doesn't do anything:
+...
+...         >>> my_function()
+...         >>>
+...     """
+...     pass
+...
+>>> print(my_function.__doc__)
+Do nothing, but document it.
+
+No, really, it doesn't do anything:
+
+    >>> my_function()
+    >>>
+
+4.9.8. 함수 어노테이션
+함수 어노테이션 은 사용자 정의 함수가 사용하는 형들에 대한 완전히 선택적인 메타데이터 정보입니다 (자세한 내용은 PEP 3107 과 PEP 484 를 보세요).
+
+어노테이션 은 함수의 __annotations__ 어트리뷰트에 딕셔너리로 저장되고 함수의 다른 부분에는 아무런 영향을 미치지 않습니다. 매개변수 어노테이션은 매개변수 이름 뒤에 오는 콜론으로 정의되는데, 값을 구할 때 어노테이션의 값을 주는 표현식이 뒤따릅니다. 반환 값 어노테이션은 리터럴 -> 와 그 뒤를 따르는 표현식으로 정의되는데, 매개변수 목록과 def 문의 끝을 나타내는 콜론 사이에 놓입니다. 다음 예에서 필수 인자, 선택적 인자, 반환 값이 어노테이트 됩니다:
+
+>>> def f(ham: str, eggs: str = 'eggs') -> str:
+...     print("Annotations:", f.__annotations__)
+...     print("Arguments:", ham, eggs)
+...     return ham + ' and ' + eggs
+...
+>>> f('spam')
+Annotations: {'ham': <class 'str'>, 'return': <class 'str'>, 'eggs': <class 'str'>}
+Arguments: spam eggs
+'spam and eggs'
+
+4.10. 막간극: 코딩 스타일
+Now that you are about to write longer, more complex pieces of Python, it is a
+good time to talk about coding style .  Most languages can be written (or more
+concisely, formatted ) in different styles; some are more readable than others.
+Making it easy for others to read your code is always a good idea, and adopting
+a nice coding style helps tremendously for that.
+
+파이썬을 위해, 대부분 프로젝트가 고수하는 스타일 가이드로 PEP 8 이 나왔습니다; 이것은 매우 읽기 쉽고 눈이 편안한 코딩 스타일을 장려합니다. 모든 파이썬 개발자는 언젠가는 이 문서를 읽어야 합니다; 여러분을 위해 가장 중요한 부분들을 추려봤습니다:
+
+들려 쓰기에 4-스페이스를 사용하고, 탭을 사용하지 마세요. 4개의 스페이스는 작은 들여쓰기 (더 많은 중첩 도를 허락합니다) 와 큰 들여쓰기 (읽기 쉽습니다) 사이의 좋은 절충입니다. 탭은 혼란을 일으키고, 없애는 것이 최선입니다.
+
+79자를 넘지 않도록 줄 넘김 하세요. 이것은 작은 화면을 가진 사용자를 돕고 큰 화면에서는 여러 코드 파일들을 나란히 볼 수 있게 합니다.
+
+함수, 클래스, 함수 내의 큰 코드 블록 사이에 빈 줄을 넣어 분리하세요.
+
+가능하다면, 주석은 별도의 줄로 넣으세요.
+
+독스트링을 사용하세요.
+
+연산자들 주변과 콤마 뒤에 스페이스를 넣고, 괄호 바로 안쪽에는 스페이스를 넣지 마세요: a = f(1, 2) + g(3, 4) .
+
+클래스와 함수들에 일관성 있는 이름을 붙이세요; 관례는 클래스의 경우 UpperCamelCase , 함수와 메서드의 경우 lowercase_with_underscores 입니다. 첫 번째 메서드 인자의 이름으로는 항상 self 를 사용하세요 (클래스와 메서드에 대한 자세한 내용은 클래스와의 첫 만남 을 보세요).
+
+여러분의 코드를 국제적인 환경에서 사용하려고 한다면 특별한 인코딩을 사용하지 마세요. 어떤 경우에도 파이썬의 기본, UTF-8, 또는 단순 ASCII조차, 이 최선입니다.
+
+마찬가지로, 다른 언어를 사용하는 사람이 코드를 읽거나 유지할 약간의 가능성만 있더라도, 식별자에 ASCII 이외의 문자를 사용하지 마세요.
+
+각주
+
+실제로, 객체 참조에 의한 호출 (call by object reference) 이 더 좋은 표현인데, 가변 객체가 전달되면, 호출자는 피호출자가 만든 변경을 볼 수 있기 때문입니다 (가령 리스트에 항목을 추가합니다).

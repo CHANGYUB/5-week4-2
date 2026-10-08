@@ -1,0 +1,21 @@
+{
+  "executed_at": "2026-10-08T13:35:55+09:00",
+  "chat_model": "gpt-4o-mini",
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 4,
+  "build": {
+    "chunks": 141,
+    "new_embeddings": 141,
+    "collection": "python_tutorial_26a89afe51629ccb"
+  },
+  "questions": 10,
+  "answer_count": 20,
+  "retrieval_doc_hit_at_k": 1.0,
+  "retrieval_section_hit_at_k": 0.875,
+  "supported_answers_with_citations": 7,
+  "invalid_citation_count": 0,
+  "unsupported_abstention_rate": 1.0,
+  "new_api_calls": 35,
+  "new_api_tokens": 68272,
+  "caveat": "출처 번호가 유효하다는 것은 주장의 의미적 근거를 보장하지 않는다. 응답 내용은 별도 검토한다."
+}

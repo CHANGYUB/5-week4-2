@@ -1,0 +1,52 @@
+[
+  {
+    "id": "introduction",
+    "title": "3. 파이썬의 간략한 소개 — Python 3.13.16 문서",
+    "url": "https://docs.python.org/ko/3.13/tutorial/introduction.html",
+    "crawled_at": "2026-10-08T13:33:16+09:00",
+    "sha256": "69ddb9a97ced15068fa53ef31ecfc2825d999245dac9af96f2899ae45c8e5386",
+    "html_sha256": "9d75e3cbcada0078a9e1c434d4b70a1ef4f6f50550a401a1c8491acdce0c1cd9",
+    "chars": 12242,
+    "section_count": 6
+  },
+  {
+    "id": "controlflow",
+    "title": "4. 기타 제어 흐름 도구 — Python 3.13.16 문서",
+    "url": "https://docs.python.org/ko/3.13/tutorial/controlflow.html",
+    "crawled_at": "2026-10-08T13:33:17+09:00",
+    "sha256": "8414b3758f96fe1ac42950d96d579f983d277965a9a5cc67b87317f5636d20fd",
+    "html_sha256": "fd30d7ccaf61d9e593305ce3a89ec18c79dbbf60ee1474f5cb421e4887add2e6",
+    "chars": 26941,
+    "section_count": 24
+  },
+  {
+    "id": "datastructures",
+    "title": "5. 자료 구조 — Python 3.13.16 문서",
+    "url": "https://docs.python.org/ko/3.13/tutorial/datastructures.html",
+    "crawled_at": "2026-10-08T13:33:18+09:00",
+    "sha256": "b719d07356aa94878bf06bc238e53eda666526c143ef64a5c8f8ca343aca94a9",
+    "html_sha256": "384d8db2f624eaf55d100a6691656db22ec6fc9cba9497d6ff916d5ca54e9987",
+    "chars": 16884,
+    "section_count": 13
+  },
+  {
+    "id": "modules",
+    "title": "6. 모듈 — Python 3.13.16 문서",
+    "url": "https://docs.python.org/ko/3.13/tutorial/modules.html",
+    "crawled_at": "2026-10-08T13:33:19+09:00",
+    "sha256": "de0509cc87195f64d0444e0b76eddded72a9c4633109b7b2c1a23d74d37a5810",
+    "html_sha256": "5e88289cad8e2ffa908b92aab1f58c67b2132beff2707d91ef5eaacbed31fb62",
+    "chars": 15587,
+    "section_count": 10
+  },
+  {
+    "id": "errors",
+    "title": "8. 에러와 예외 — Python 3.13.16 문서",
+    "url": "https://docs.python.org/ko/3.13/tutorial/errors.html",
+    "crawled_at": "2026-10-08T13:33:20+09:00",
+    "sha256": "fa12d4a0c0876f172918097dcf01308e20503124daf013552115e086c1785c02",
+    "html_sha256": "be3ca12b892975d27d65ba11b8f19f5450590e1e879ee0482ebb2215ea5a110a",
+    "chars": 17195,
+    "section_count": 11
+  }
+]

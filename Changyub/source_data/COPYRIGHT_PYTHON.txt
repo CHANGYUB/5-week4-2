@@ -1,0 +1,15 @@
+Source: https://docs.python.org/ko/3.13/copyright.html
+
+저작권
+파이썬과 이 설명서는:
+
+Copyright © 2001-2024 Python Software Foundation. All rights reserved.
+
+Copyright © 2000 BeOpen.com. All rights reserved.
+
+Copyright © 1995-2000 Corporation for National Research Initiatives. All rights
+reserved.
+
+Copyright © 1991-1995 Stichting Mathematisch Centrum. All rights reserved.
+
+전체 라이센스 및 사용 권한 정보는 역사와 라이센스 에서 제공합니다.

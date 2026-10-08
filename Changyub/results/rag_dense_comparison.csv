@@ -1,0 +1,48 @@
+﻿id,mode,in_corpus,expected_doc_hit,expected_section_hit,citation_count,invalid_citations,abstained,tokens,latency_s,cached,answer,source_urls
+Q1,no_rag,True,False,False,0,0,False,112,1.883,False,"`range(5)`는 0부터 4까지의 숫자를 생성합니다. 끝값 5는 포함되지 않습니다. 즉, 결과는 0, 1, 2, 3, 4입니다.",
+Q1,rag,True,True,True,1,0,False,1938,1.002,False,`range(5)`는 0부터 4까지의 숫자를 생성합니다. 끝값인 5는 포함되지 않습니다 [2].,https://docs.python.org/ko/3.13/tutorial/controlflow.html#the-range-function
+Q2,no_rag,True,False,False,0,0,False,104,1.104,False,"`list.sort()`는 원래 리스트를 직접 변경하며, 반환값은 `None`입니다. 반면, `sorted()`는 원래 리스트를 변경하지 않고, 정렬된 새로운 리스트를 반환합니다.",
+Q2,rag,True,True,True,0,0,True,1850,0.846,False,수집된 문서에서 답을 찾지 못했습니다.,
+Q3,no_rag,True,False,False,0,0,False,135,1.833,False,"한 개짜리 튜플을 만들 때 쉼표는 필수입니다. 예를 들어, `(1)`은 단순한 정수로 인식되지만, `(1,)`은 튜플로 인식됩니다. 쉼표가 있어야 튜플임을 명확히 구분할 수 있습니다.",
+Q3,rag,True,True,True,1,0,False,2000,2.019,False,"튜토리얼에서 원소 한 개짜리 튜플을 만들 때 쉼표가 필요한 이유는, 단순히 괄호로 값을 둘러싸는 것만으로는 튜플로 인식되지 않기 때문입니다. 쉼표가 있어야만 파이썬이 이를 튜플로 인식합니다. 예를 들어, 하나의 항목으로 구성된 튜플은 값 뒤에 쉼표를 붙여서 만들어야 합니다. 그렇지 않으면 단일 값으로 간주됩니다 [2].",https://docs.python.org/ko/3.13/tutorial/datastructures.html#tuples-and-sequences
+Q4,no_rag,True,False,False,0,0,False,200,1.682,False,"함수의 기본 인자로 빈 리스트를 사용하면, 그 리스트가 함수가 호출될 때마다 재사용되기 때문에 이전 호출에서 추가된 값이 누적됩니다. 이는 기본 인자가 함수 정의 시점에 한 번만 평가되기 때문입니다.
+
+이 문제를 해결하려면 기본 인자를 `None`으로 설정하고, 함수 내부에서 리스트를 생성하는 방법을 사용하면 됩니다. 예를 들어:
+
+```python
+def my_function(arg=None):
+    if arg is None:
+        arg = []
+    arg.append(1)
+    return arg
+```
+
+이렇게 하면 각 호출마다 새로운 리스트가 생성되어 누적되지 않습니다.",
+Q4,rag,True,True,True,1,0,False,2043,1.848,False,"함수의 기본 인자에 빈 리스트를 사용하면, 기본값이 함수가 정의될 때 한 번만 계산되기 때문에, 이후의 호출에서 같은 리스트 객체가 공유됩니다. 이로 인해 호출 사이에 값이 누적됩니다. 이를 방지하려면 기본값을 `None`으로 설정하고, 함수 내에서 `None`일 경우 새로운 리스트를 생성하도록 수정해야 합니다 [2].",https://docs.python.org/ko/3.13/tutorial/controlflow.html#default-argument-values
+Q5,no_rag,True,False,False,0,0,False,142,1.644,False,"모듈 파일의 `__name__`은 직접 실행할 때는 `""__main__""`으로 설정되고, import할 때는 모듈의 이름(파일 이름)으로 설정됩니다. 즉, 직접 실행 시 `__name__`은 `""__main__""`이고, 다른 파일에서 import할 경우 `__name__`은 해당 모듈의 이름이 됩니다.",
+Q5,rag,True,True,True,1,0,False,1832,1.576,False,"모듈 파일을 직접 실행할 때, `__name__`은 `""__main__""`으로 설정됩니다. 반면, 모듈이 임포트될 때는 `__name__`이 모듈의 이름으로 설정됩니다. 이 차이는 모듈이 스크립트로도 사용될 수 있도록 하며, 오직 모듈이 “메인” 파일로 실행될 때만 특정 코드를 실행할 수 있게 합니다 [4].",https://docs.python.org/ko/3.13/tutorial/modules.html#executing-modules-as-scripts
+Q6,no_rag,True,False,False,0,0,False,116,1.462,False,"`try` 문의 `finally` 절은 예외가 발생하든, `return` 문이 있든 항상 실행됩니다. 즉, `try` 블록에서 예외가 발생하거나 `return`이 실행되더라도 `finally` 블록의 코드는 반드시 실행됩니다.",
+Q6,rag,True,True,True,1,0,False,1682,1.794,False,"try 문의 finally 절은 try 문이 완료되기 전에 항상 실행됩니다. 이는 try 문이 예외를 발생시키는지와 관계없이 실행됩니다. 예외가 발생하면 finally 절이 실행된 후 예외가 다시 발생합니다. 또한, finally 절이 break, continue 또는 return 문을 포함할 경우, 예외는 다시 발생하지 않습니다 [1].",https://docs.python.org/ko/3.13/tutorial/errors.html#defining-clean-up-actions
+Q7,no_rag,True,False,False,0,0,False,86,1.073,False,"17 // 3의 결과는 5이고, 17 % 3의 결과는 2입니다.",
+Q7,rag,True,True,True,1,0,False,1498,1.088,False,"튜토리얼에서 17 // 3의 결과는 5이고, 17 % 3의 결과는 2입니다 [1].",https://docs.python.org/ko/3.13/tutorial/introduction.html#numbers
+Q8,no_rag,True,False,False,0,0,False,181,2.379,False,"`/` 앞의 매개변수는 위치 인자로만 전달해야 하고, `*` 뒤의 매개변수는 키워드 인자로만 전달해야 합니다. 예를 들어:
+
+```python
+def example(a, b, /, c, d, *, e, f):
+    pass
+```
+
+- `a`, `b`는 위치 인자로만 전달 가능.
+- `c`, `d`는 위치 인자 또는 키워드 인자로 전달 가능.
+- `e`, `f`는 키워드 인자로만 전달 가능.",
+Q8,rag,True,True,False,1,0,False,1086,1.156,False,"함수 정의에 /가 없으면, 인자를 위치나 키워드로 함수에 전달할 수 있습니다. / 앞의 매개변수는 위치 인자로만 전달해야 하고, * 뒤의 매개변수는 키워드 인자로만 전달해야 합니다 [3].",https://docs.python.org/ko/3.13/tutorial/controlflow.html#positional-or-keyword-arguments
+Q9,no_rag,False,,,0,0,False,258,2.769,False,"`select_related`와 `prefetch_related`는 Django ORM에서 데이터베이스 쿼리를 최적화하는 방법입니다.
+
+- **select_related**: 외래 키 관계를 가진 객체를 한 번의 SQL 쿼리로 가져옵니다. JOIN을 사용하여 관련된 객체를 함께 가져오므로, 데이터베이스에 대한 쿼리 수를 줄일 수 있습니다. 주로 1:1 또는 1:N 관계에서 사용됩니다.
+
+- **prefetch_related**: 여러 개의 쿼리를 사용하여 관련 객체를 가져옵니다. 먼저 기본 쿼리를 실행한 후, 관련된 객체를 별도의 쿼리로 가져와 메모리에서 결합합니다. 주로 N:M 관계에서 유용합니다.
+
+요약하자면, `select_related`는 JOIN을 사용하고, `prefetch_related`는 별도의 쿼리를 사용하여 데이터를 가져옵니다.",
+Q9,rag,False,,,0,0,True,1163,0.878,False,수집된 문서에서 답을 찾지 못했습니다.,
+Q10,no_rag,False,,,0,0,False,76,0.888,False,모르겠습니다. 해당 문서의 내용을 알 수 없기 때문입니다.,
+Q10,rag,False,,,0,0,True,1130,0.935,False,수집된 문서에서 답을 찾지 못했습니다.,

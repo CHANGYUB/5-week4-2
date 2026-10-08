@@ -1,0 +1,535 @@
+8. 에러와 예외
+지금까지 에러 메시지가 언급되지는 않았지만, 예제들을 직접 해보았다면 아마도 몇몇 개를 보았을 것입니다. (적어도) 두 가지 구별되는 에러들이 있습니다; 문법 에러 와 예외 .
+
+8.1. 문법 에러
+문법 에러는, 파싱 에러라고도 알려져 있습니다, 아마도 여러분이 파이썬을 배우고 있는 동안에는 가장 자주 만나는 종류의 불평일 것입니다:
+
+>>> while True print('Hello world')
+  File "<stdin>", line 1
+    while True print('Hello world')
+               ^^^^^
+SyntaxError: invalid syntax
+
+파서는 문제가 되는 줄을 다시 보여주고 줄에서 에러가 감지된 위치를 가리키는 작은 화살표를 표시합니다. 이 위치가 항상 수정해야 할 위치는 아님에 유의하십시오. 이 예에서, 에러는 함수 print() 에서 감지되었는데, 바로 앞에 콜론 ( ':' ) 이 빠져있기 때문입니다.
+
+파일 이름(우리 예에서는 <stdin> )과 줄 번호가 인쇄되어서, 입력이 파일로부터 올 때 찾을 수 있도록 합니다.
+
+8.2. 예외
+문장이나 표현식이 문법적으로 올바르다 할지라도, 실행하려고 하면 에러를 일으킬 수 있습니다. 실행 중에 감지되는 에러들을 예외 라고 부르고 무조건 치명적이지는 않습니다: 파이썬 프로그램에서 이것들을 어떻게 다루는지 곧 배우게 됩니다. 하지만 대부분의 예외는 프로그램이 처리하지 않아서, 여기에서 볼 수 있듯이 에러 메시지를 만듭니다:
+
+>>> 10 * (1/0)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    10 * (1/0)
+          ~^~
+ZeroDivisionError: division by zero
+>>> 4 + spam*3
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    4 + spam*3
+        ^^^^
+NameError: name 'spam' is not defined
+>>> '2' + 2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    '2' + 2
+    ~~~~^~~
+TypeError: can only concatenate str (not "int") to str
+
+에러 메시지의 마지막 줄은 어떤 일이 일어났는지 알려줍니다. 예외는 여러 형으로 나타나고, 형이 메시지 일부로 인쇄됩니다: 이 예에서의 형은 ZeroDivisionError , NameError , TypeError 입니다. 예외 형으로 인쇄된 문자열은 발생한 내장 예외의 이름입니다. 이것은 모든 내장 예외들의 경우는 항상 참이지만, 사용자 정의 예외의 경우는 (편리한 관례임에도 불구하고) 꼭 그럴 필요는 없습니다. 표준 예외 이름은 내장 식별자입니다 (예약 키워드가 아닙니다).
+
+줄의 나머지 부분은 예외의 형과 원인에 기반을 둔 상세 명세를 제공합니다.
+
+에러 메시지의 앞부분은 스택 트레이스의 형태로 예외가 일어난 위치의 문맥을 보여줍니다. 일반적으로 소스의 줄들을 나열하는 스택 트레이스를 포함하고 있습니다; 하지만, 표준 입력에서 읽어 들인 줄들은 표시하지 않습니다.
+
+Built-in Exceptions 는 내장 예외들과 그 들의 의미를 나열하고 있습니다.
+
+8.3. 예외 처리하기
+선택한 예외를 처리하는 프로그램을 만드는 것이 가능합니다. 다음 예를 보면, 올바를 정수가 입력될 때까지 사용자에게 입력을 요청하지만, 사용자가 프로그램을 인터럽트 하는 것을 허용합니다 ( Control - C 나 그 외에 운영 체제가 지원하는 것을 사용해서); 사용자가 만든 인터럽트는 KeyboardInterrupt 예외를 일으키는 형태로 나타남에 유의하세요.
+
+>>> while True:
+...     try:
+...         x = int(input("Please enter a number: "))
+...         break
+...     except ValueError:
+...         print("Oops!  That was no valid number.  Try again...")
+...
+
+try 문은 다음과 같이 동작합니다.
+
+먼저, try 절 ( try 와 except 사이의 문장들) 이 실행됩니다.
+
+예외가 발생하지 않으면, except 절 을 건너뛰고 try 문의 실행은 종료됩니다.
+
+try 절을 실행하는 동안 예외가 발생하면, 절의 남은 부분들을 건너뜁니다. 그런 다음, 형이 except 키워드 뒤에 오는 예외 이름과 매치되면, 그 except 절 이 실행되고, 그런 다음 실행은 try/except 블록 뒤로 이어집니다.
+
+except 절 에 있는 예외 이름들과 매치되지 않는 예외가 발생하면, 외부에 있는 try 문으로 전달됩니다; 처리기가 발견되지 않으면, 처리되지 않은 예외 이고 에러 메시지를 출력하면서 실행이 멈춥니다.
+
+각기 다른 예외에 대한 처리기를 지정하기 위해, try 문은 하나 이상의 except 절 을 가질 수 있습니다. 최대 하나의 처리기가 실행됩니다. 처리기는 해당하는 try 절 에서 발생한 예외만 처리할 뿐 같은 try 문의 다른 처리기가 일으킨 예외를 처리하지는 않습니다. except 절 은 괄호가 있는 튜플로 여러 개의 예외를 지정할 수 있습니다, 예를 들어:
+
+... except (RuntimeError, TypeError, NameError):
+...     pass
+
+except 절에 있는 클래스는 해당 클래스 자체나 자식 클래스의 인스턴스인 예외와 매치됩니다 (하지만 다른 방식으로는 매치되지 않습니다 — 자식 클래스를 나열한 except 절 은 베이스 클래스의 인스턴스와 매치되지 않습니다). 예를 들어, 다음과 같은 코드는 B, C, D를 그 순서대로 인쇄합니다:
+
+class B(Exception):
+    pass
+
+class C(B):
+    pass
+
+class D(C):
+    pass
+
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except D:
+        print("D")
+    except C:
+        print("C")
+    except B:
+        print("B")
+
+except 절 이 뒤집히면 ( except B 가 처음에 오도록), B, B, B를 인쇄하게 됨에 주의하세요 — 처음으로 매치되는 except 절 이 실행됩니다.
+
+예외가 발생할 때, 연관된 값을 가질 수 있는데, 예외의 인자 라고도 알려져 있습니다. 인자의 존재와 형은 예외 형에 의존적입니다.
+
+The except clause may specify a variable after the exception name.  The
+variable is bound to the exception instance which typically has an args attribute that stores the arguments. For convenience, builtin exception
+types define __str__() to print all the arguments without explicitly
+accessing .args .
+
+>>> try:
+...     raise Exception('spam', 'eggs')
+... except Exception as inst:
+...     print(type(inst))    # 예외 형
+...     print(inst.args)     # .args 에 저장된 인자들
+...     print(inst)          # __str__ 는 args 가 직접 인쇄될 수 있게합니다,
+...                          # 하지만 예외 서브 클래스가 재정의할 수 있습니다
+...     x, y = inst.args     # args 를 언팩합니다
+...     print('x =', x)
+...     print('y =', y)
+...
+<class 'Exception'>
+('spam', 'eggs')
+('spam', 'eggs')
+x = spam
+y = eggs
+
+예외의 __str__() 출력이 처리되지 않은 예외 메시지의 마지막 부분(‘상세 명세’)에 인쇄됩니다.
+
+BaseException is the common base class of all exceptions. One of its
+subclasses, Exception , is the base class of all the non-fatal exceptions.
+Exceptions which are not subclasses of Exception are not typically
+handled, because they are used to indicate that the program should terminate.
+They include SystemExit which is raised by sys.exit() and KeyboardInterrupt which is raised when a user wishes to interrupt
+the program.
+
+Exception can be used as a wildcard that catches (almost) everything.
+However, it is good practice to be as specific as possible with the types
+of exceptions that we intend to handle, and to allow any unexpected
+exceptions to propagate on.
+
+The most common pattern for handling Exception is to print or log
+the exception and then re-raise it (allowing a caller to handle the
+exception as well):
+
+import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print("OS error:", err)
+except ValueError:
+    print("Could not convert data to an integer.")
+except Exception as err:
+    print(f"Unexpected {err=}, {type(err)=}")
+    raise
+
+try … except 문은 선택적인 else 절 을 갖는데, 있다면 모든 except 절 뒤에와야 합니다. try 절 이 예외를 일으키지 않을 때 실행되어야만 하는 코드에 유용합니다. 예를 들어:
+
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except OSError:
+        print('cannot open', arg)
+    else:
+        print(arg, 'has', len(f.readlines()), 'lines')
+        f.close()
+
+else 절의 사용이 try 절에 코드를 추가하는 것보다 좋은데, try … except 문에 의해 보호되고 있는 코드가 일으키지 않은 예외를 우연히 잡게 되는 것을 방지하기 때문입니다.
+
+예외 처리기는 try 절 에 직접 등장하는 예외뿐만 아니라, try 절 에서 (간접적으로라도) 호출되는 내부 함수들에서 발생하는 예외들도 처리합니다. 예를 들어:
+
+>>> def this_fails():
+...     x = 1/0
+...
+>>> try:
+...     this_fails()
+... except ZeroDivisionError as err:
+...     print('Handling run-time error:', err)
+...
+Handling run-time error: division by zero
+
+8.4. 예외 일으키기
+raise 문은 프로그래머가 지정한 예외가 발생하도록 강제할 수 있게 합니다. 예를 들어:
+
+>>> raise NameError('HiThere')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    raise NameError('HiThere')
+NameError: HiThere
+
+raise 에 제공하는 단일 인자는 발생시킬 예외를 가리킵니다. 예외 인스턴스이거나 예외 클래스 ( BaseException 을 계승하는 클래스, 가령 Exception 이나 그 서브 클래스) 이어야 합니다. 예외 클래스가 전달되면, 묵시적으로 인자 없이 생성자를 호출해서 인스턴스를 만듭니다:
+
+raise ValueError  # 'raise ValueError()' 의 줄임 표현
+
+만약 예외가 발생했는지는 알아야 하지만 처리하고 싶지는 않다면, 더 간단한 형태의 raise 문이 그 예외를 다시 일으킬 수 있게 합니다:
+
+>>> try:
+...     raise NameError('HiThere')
+... except NameError:
+...     print('An exception flew by!')
+...     raise
+...
+An exception flew by!
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+    raise NameError('HiThere')
+NameError: HiThere
+
+8.5. 예외 연쇄
+If an unhandled exception occurs inside an except section, it will
+have the exception being handled attached to it and included in the error
+message:
+
+>>> try:
+...     open("database.sqlite")
+... except OSError:
+...     raise RuntimeError("unable to handle error")
+...
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+    open("database.sqlite")
+    ~~~~^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'database.sqlite'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+    raise RuntimeError("unable to handle error")
+RuntimeError: unable to handle error
+
+To indicate that an exception is a direct consequence of another, the raise statement allows an optional from clause:
+
+# exc must be exception instance or None.
+raise RuntimeError from exc
+
+이것은 예외를 변환할 때 유용할 수 있습니다. 예를 들면:
+
+>>> def func():
+...     raise ConnectionError
+...
+>>> try:
+...     func()
+... except ConnectionError as exc:
+...     raise RuntimeError('Failed to open database') from exc
+...
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+    func()
+    ~~~~^^
+  File "<stdin>", line 2, in func
+ConnectionError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+    raise RuntimeError('Failed to open database') from exc
+RuntimeError: Failed to open database
+
+It also allows disabling automatic exception chaining using the from None idiom:
+
+>>> try:
+...     open('database.sqlite')
+... except OSError:
+...     raise RuntimeError from None
+...
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+    raise RuntimeError from None
+RuntimeError
+
+연쇄 메커니즘에 대한 자세한 내용은, Built-in Exceptions 를 참조하십시오.
+
+8.6. 사용자 정의 예외
+새 예외 클래스를 만듦으로써 프로그램은 자신의 예외에 이름을 붙일 수 있습니다 (파이썬 클래스에 대한 자세한 내용은 클래스 를 보세요). 예외는 보통 직접적으로나 간접적으로 Exception 클래스를 계승합니다.
+
+예외 클래스는 다른 클래스들이 할 수 있는 어떤 것도 가능하도록 정의될 수 있지만, 보통은 간단하게 유지합니다. 종종 예외 처리기가 에러에 관한 정보를 추출할 수 있도록 하기 위한 몇 가지 어트리뷰트들을 제공하기만 합니다.
+
+대부분의 예외는 표준 예외들의 이름들과 유사하게, “Error” 로 끝나는 이름으로 정의됩니다.
+
+많은 표준 모듈들은 그들이 정의하는 함수들에서 발생할 수 있는 그 자신만의 예외들을 정의합니다.
+
+8.7. 뒷정리 동작 정의하기
+try 문은 또 다른 선택적 절을 가질 수 있는데 모든 상황에 실행되어야만 하는 뒷정리 동작을 정의하는 데 사용됩니다. 예를 들어:
+
+>>> try:
+...     raise KeyboardInterrupt
+... finally:
+...     print('Goodbye, world!')
+...
+Goodbye, world!
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+    raise KeyboardInterrupt
+KeyboardInterrupt
+
+finally 절이 있으면, try 문이 완료되기 전에 finally 절이 마지막 작업으로 실행됩니다. finally 절은 try 문이 예외를 생성하는지와 관계없이 실행됩니다. 다음은 예외가 발생할 때 더 복잡한 경우를 설명합니다:
+
+try 절을 실행하는 동안 예외가 발생하면, except 절에서 예외를 처리할 수 있습니다. 예외가 except 절에서 처리되지 않으면, finally 절이 실행된 후 예외가 다시 발생합니다.
+
+except 나 else 절 실행 중에 예외가 발생할 수 있습니다. 다시, finally 절이 실행된 후 예외가 다시 발생합니다.
+
+If the finally clause executes a break , continue or return statement, exceptions are not
+re-raised.
+
+try 문이 break , continue 또는 return 문에 도달하면, finally 절은 break , continue 또는 return 문 실행 직전에 실행됩니다.
+
+finally 절에 return 문이 포함되면, 반환 값은 try 절의 return 문이 주는 값이 아니라, finally 절의 return 문이 주는 값이 됩니다.
+
+예를 들면:
+
+>>> def bool_return():
+...     try:
+...         return True
+...     finally:
+...         return False
+...
+>>> bool_return()
+False
+
+더 복잡한 예:
+
+>>> def divide(x, y):
+...     try:
+...         result = x / y
+...     except ZeroDivisionError:
+...         print("division by zero!")
+...     else:
+...         print("result is", result)
+...     finally:
+...         print("executing finally clause")
+...
+>>> divide(2, 1)
+result is 2.0
+executing finally clause
+>>> divide(2, 0)
+division by zero!
+executing finally clause
+>>> divide("2", "1")
+executing finally clause
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    divide("2", "1")
+    ~~~~~~^^^^^^^^^^
+  File "<stdin>", line 3, in divide
+    result = x / y
+             ~~^~~
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+
+보인 바와 같이, finally 절은 모든 경우에 실행됩니다. 두 문자열을 나눠서 발생한 TypeError 는 except 절에 의해 처리되지 않고 finally 절이 실행된 후에 다시 일어납니다.
+
+실제 세상의 응용 프로그램에서, finally 절은 외부 자원을 사용할 때, 성공적인지 아닌지와 관계없이, 그 자원을 반납하는 데 유용합니다 (파일이나 네트워크 연결 같은 것들).
+
+8.8. 미리 정의된 뒷정리 동작들
+어떤 객체들은 객체가 더 필요 없을 때 개입하는 표준 뒷정리 동작을 정의합니다. 그 객체를 사용하는 연산의 성공 여부와 관계없습니다. 파일을 열고 그 내용을 화면에 인쇄하려고 하는 다음 예를 보세요.
+
+for line in open("myfile.txt"):
+    print(line, end="")
+
+이 코드의 문제점은 이 부분이 실행을 끝낸 뒤에도 예측할 수 없는 기간 동안 파일을 열린 채로 둔다는 것입니다. 간단한 스크립트에서는 문제가 되지 않지만, 큰 응용 프로그램에서는 문제가 될 수 있습니다. with 문은 파일과 같은 객체들이 즉시 올바르게 뒷정리 되도록 보장하는 방법을 제공합니다.
+
+with open("myfile.txt") as f:
+    for line in f:
+        print(line, end="")
+
+문장이 실행된 후에, 줄을 처리하는 데 문제가 발생하더라도, 파일 f 는 항상 닫힙니다. 파일과 같이, 미리 정의된 뒷정리 동작들을 제공하는 객체들은 그들의 설명서에서 이 사실을 설명합니다.
+
+8.9. Raising and Handling Multiple Unrelated Exceptions
+There are situations where it is necessary to report several exceptions that
+have occurred. This is often the case in concurrency frameworks, when several
+tasks may have failed in parallel, but there are also other use cases where
+it is desirable to continue execution and collect multiple errors rather than
+raise the first exception.
+
+The builtin ExceptionGroup wraps a list of exception instances so
+that they can be raised together. It is an exception itself, so it can be
+caught like any other exception.
+
+>>> def f():
+...     excs = [OSError('error 1'), SystemError('error 2')]
+...     raise ExceptionGroup('there were problems', excs)
+...
+>>> f()
+  + Exception Group Traceback (most recent call last):
+  |   File "<stdin>", line 1, in <module>
+  |     f()
+  |     ~^^
+  |   File "<stdin>", line 3, in f
+  |     raise ExceptionGroup('there were problems', excs)
+  | ExceptionGroup: there were problems (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | OSError: error 1
+    +---------------- 2 ----------------
+    | SystemError: error 2
+    +------------------------------------
+>>> try:
+...     f()
+... except Exception as e:
+...     print(f'caught {type(e)}: {e}')
+...
+caught <class 'ExceptionGroup'>: there were problems (2 sub-exceptions)
+>>>
+
+By using except* instead of except , we can selectively
+handle only the exceptions in the group that match a certain
+type. In the following example, which shows a nested exception
+group, each except* clause extracts from the group exceptions
+of a certain type while letting all other exceptions propagate to
+other clauses and eventually to be reraised.
+
+>>> def f():
+...     raise ExceptionGroup(
+...         "group1",
+...         [
+...             OSError(1),
+...             SystemError(2),
+...             ExceptionGroup(
+...                 "group2",
+...                 [
+...                     OSError(3),
+...                     RecursionError(4)
+...                 ]
+...             )
+...         ]
+...     )
+...
+>>> try:
+...     f()
+... except* OSError as e:
+...     print("There were OSErrors")
+... except* SystemError as e:
+...     print("There were SystemErrors")
+...
+There were OSErrors
+There were SystemErrors
+  + Exception Group Traceback (most recent call last):
+  |   File "<stdin>", line 2, in <module>
+  |     f()
+  |     ~^^
+  |   File "<stdin>", line 2, in f
+  |     raise ExceptionGroup(
+  |     ...<12 lines>...
+  |     )
+  | ExceptionGroup: group1 (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | ExceptionGroup: group2 (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | RecursionError: 4
+      +------------------------------------
+>>>
+
+Note that the exceptions nested in an exception group must be instances,
+not types. This is because in practice the exceptions would typically
+be ones that have already been raised and caught by the program, along
+the following pattern:
+
+>>> excs = []
+... for test in tests:
+...     try:
+...         test.run()
+...     except Exception as e:
+...         excs.append(e)
+...
+>>> if excs:
+...    raise ExceptionGroup("Test Failures", excs)
+...
+
+8.10. Enriching Exceptions with Notes
+When an exception is created in order to be raised, it is usually initialized
+with information that describes the error that has occurred. There are cases
+where it is useful to add information after the exception was caught. For this
+purpose, exceptions have a method add_note(note) that accepts a string and
+adds it to the exception’s notes list. The standard traceback rendering
+includes all notes, in the order they were added, after the exception.
+
+>>> try:
+...     raise TypeError('bad type')
+... except Exception as e:
+...     e.add_note('Add some information')
+...     e.add_note('Add some more information')
+...     raise
+...
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+    raise TypeError('bad type')
+TypeError: bad type
+Add some information
+Add some more information
+>>>
+
+For example, when collecting exceptions into an exception group, we may want
+to add context information for the individual errors. In the following each
+exception in the group has a note indicating when this error has occurred.
+
+>>> def f():
+...     raise OSError('operation failed')
+...
+>>> excs = []
+>>> for i in range(3):
+...     try:
+...         f()
+...     except Exception as e:
+...         e.add_note(f'Happened in Iteration {i+1}')
+...         excs.append(e)
+...
+>>> raise ExceptionGroup('We have some problems', excs)
+  + Exception Group Traceback (most recent call last):
+  |   File "<stdin>", line 1, in <module>
+  |     raise ExceptionGroup('We have some problems', excs)
+  | ExceptionGroup: We have some problems (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 3, in <module>
+    |     f()
+    |     ~^^
+    |   File "<stdin>", line 2, in f
+    |     raise OSError('operation failed')
+    | OSError: operation failed
+    | Happened in Iteration 1
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 3, in <module>
+    |     f()
+    |     ~^^
+    |   File "<stdin>", line 2, in f
+    |     raise OSError('operation failed')
+    | OSError: operation failed
+    | Happened in Iteration 2
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "<stdin>", line 3, in <module>
+    |     f()
+    |     ~^^
+    |   File "<stdin>", line 2, in f
+    |     raise OSError('operation failed')
+    | OSError: operation failed
+    | Happened in Iteration 3
+    +------------------------------------
+>>>
